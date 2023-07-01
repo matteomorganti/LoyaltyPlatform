@@ -3,14 +3,14 @@ package it.unicam.cs.ids.backend.model;
 import java.util.Objects;
 
 public class User {
-    private int id;
-    private String name;
-    private String surname;
-    private String address;
-    private String email;
-    private int telephone;
-    private String username;
-    private String password;
+    private final int id;
+    private final String name;
+    private final String surname;
+    private final String address;
+    private final String email;
+    private final int telephone;
+    private final String username;
+    private final String password;
 
     public User(String name, String surname, String address, String email, String username, String password, int telephone) {
         this.id=randomInt();
@@ -23,24 +23,12 @@ public class User {
         this.telephone = telephone;
     }
 
-    public User(int id, String name, String surname, String address, String email, String username, String password, int telephone) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.address = address;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.telephone = telephone;
-    }
-
     private int randomInt() {
-        double doubleRandom=0;
+        double doubleRandom;
 
         doubleRandom=Math.random()*4000;
 
-        int intRandom=(int ) doubleRandom;
-        return intRandom;
+        return (int ) doubleRandom;
     }
 
 
@@ -77,10 +65,10 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User that = (User) o;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        User that = (User) obj;
         return Objects.equals(id, that.id) && Objects.equals(email, that.email) && Objects.equals(username, that.username);
     }
 
