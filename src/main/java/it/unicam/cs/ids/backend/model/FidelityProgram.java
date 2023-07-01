@@ -10,7 +10,7 @@ public class FidelityProgram {
 
 
     public FidelityProgram(String name, String description) {
-        this.id= 0;
+        this.id= randomInt();
         this.name = name;
         this.description = description;
     }
@@ -22,13 +22,20 @@ public class FidelityProgram {
     }
 
     public FidelityProgram(String name) {
-        this.id=0;
+        this.id=randomInt();
         this.name = name;
     }
 
     public FidelityProgram(String name, int id) {
         this.name = name;
         this.id = id;
+    }
+    private int randomInt(){
+        double doubleRandom;
+        if(this instanceof PointsProgram){
+            doubleRandom= Math.random()*1000;
+        }else doubleRandom= Math.random()*2000;
+        return (int) doubleRandom;
     }
     public  int getId() {
         return id;
