@@ -23,6 +23,17 @@ public class User {
         this.telephone = telephone;
     }
 
+    public User(int id, String name, String surname, String address, String email, String username, String password, int telephone) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.telephone = telephone;
+    }
+
     private int randomInt() {
         double doubleRandom;
 
