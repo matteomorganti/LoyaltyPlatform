@@ -4,10 +4,10 @@ import java.sql.*;
 
 public class DBMSController {
 
-        private static String url = "jdbc:postgresql://localhost:5432/LoyaltyPlatform";
-        private static String user = "postgres";
-        private static String password = "password";
-        private static Connection connection;
+    private static String url = "jdbc:postgresql://localhost:5432/LoyaltyPlatform";
+    private static String user = "postgres";
+    private static String password = "password";
+    private static Connection connection;
 
 
     public static void init() {
@@ -49,4 +49,3 @@ public class DBMSController {
         return 0;
     }
 }
-
