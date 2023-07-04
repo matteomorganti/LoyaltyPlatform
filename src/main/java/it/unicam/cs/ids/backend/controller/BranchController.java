@@ -120,7 +120,7 @@ public class BranchController {
 
     public int addPointsCard(int boughtItems, PointsProgram pp, FidelityCard cf, Coupon coupon) throws SQLException {
         int earnedPoints=cf.getCurrPoints()+(boughtItems/pp.getPointXValue());
-        String query="UPDATE cartefedelta SET punticorrenti ='"+earnedPoints+"'WHERE id_cf= '"+cf.getId()+"'";
+        String query="UPDATE fidelitycard SET currentpoints ='"+earnedPoints+"'WHERE id_cf= '"+cf.getId()+"'";
         if(earnedPoints>=pp.getTotalPoints()){
             //sblocca coupon da ritirare
             String query1="UPDATE coupon SET clientiid_c ='"+cf.getClient().getId()+"'WHERE id_coupon= '"+coupon.getIdCoupon()+"'";
