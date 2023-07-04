@@ -44,7 +44,7 @@ public class RegisterController {
     }
 
     public void addOwner(BranchManager owner) throws SQLException, DateMistake {
-        if (paymentSystem.verifyPayment(owner) == TransactionState.paid) {
+        if (paymentSystem.verifyPayment(owner) == TransactionState.PAID) {
             String query = "UPDATE owners SET enabled = 'true' WHERE id_t = '" + owner.getId() + "'";
             DBMSController.insertQuery(query);
         } else {
