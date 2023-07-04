@@ -25,24 +25,24 @@ public class DBMSControllerTest {
     }
 
     @Test
-    public void testInsertQuery() throws SQLException {
+     void testInsertQuery() throws SQLException {
         String query = "INSERT INTO " + TABLE_NAME + " VALUES (1, 'Test')";
         DBMSController.insertQuery(query);
-        int rowCount = getRowCount(TABLE_NAME);
+        int rowCount = getRowCount();
         assertEquals(1, rowCount);
     }
 
     @Test
-    public void testRemoveQuery() throws SQLException {
+     void testRemoveQuery() throws SQLException {
         insertTestData();
         String query = "DELETE FROM " + TABLE_NAME + " WHERE id = 1";
         DBMSController.removeQuery(query);
-        int rowCount = getRowCount(TABLE_NAME);
+        int rowCount = getRowCount();
         assertEquals(0, rowCount);
     }
 
     @Test
-    public void testSelectAllFromTable() throws SQLException {
+     void testSelectAllFromTable() throws SQLException {
         insertTestData();
         ResultSet resultSet = DBMSController.selectAllFromTable(TABLE_NAME);
         assertNotNull(resultSet);
@@ -53,7 +53,7 @@ public class DBMSControllerTest {
     }
 
     @Test
-    public void testGetNumberRows() throws SQLException {
+     void testGetNumberRows() throws SQLException {
         insertTestData();
         String query = "SELECT * FROM " + TABLE_NAME;
         int rowCount = DBMSController.getNumberRows(query);
@@ -88,9 +88,9 @@ public class DBMSControllerTest {
         DBMSController.insertQuery(query);
     }
 
-    private int getRowCount(String table) throws SQLException {
-        String query = "SELECT COUNT(*) FROM " + table;
-        ResultSet resultSet = DBMSController.selectAllFromTable(table);
+    private int getRowCount() throws SQLException {
+        String query = "SELECT COUNT(*) FROM " + DBMSControllerTest.TABLE_NAME;
+        ResultSet resultSet = DBMSController.selectAllFromTable(DBMSControllerTest.TABLE_NAME);
         resultSet.next();
         return resultSet.getInt(1);
     }
