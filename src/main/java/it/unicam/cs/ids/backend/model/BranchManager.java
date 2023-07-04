@@ -52,7 +52,7 @@ public class BranchManager extends User {
             this.createFidelityProgram.viewProgramLevels();
             this.createFidelityProgram.addProgramOwner(this, id);
         }else{
-            throw new ExceptionAbilitation();
+            throw new ExceptionAbilitation("Esercente non abilitato alla piattaforma");
         }
     }
 }
