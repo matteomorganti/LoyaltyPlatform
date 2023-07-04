@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Customer extends User {
 
-    private List<FidelityCard> fidelityCards;
+    private final List<FidelityCard> fidelityCards;
     private final CardController cardController;
 
 

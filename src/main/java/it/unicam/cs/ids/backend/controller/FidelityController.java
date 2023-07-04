@@ -96,14 +96,11 @@ public class FidelityController {
 
     @Override
     public String toString() {
-        String string ="";
+        StringBuilder string = new StringBuilder();
         for (FidelityProgram pf : programList){
-            string+= "id: ["+pf.getId()+"] \n" +
-                    "name: ["+pf.getName()+"] \n" +
-                    "description: ["+pf.getDescription()+"]\n" +
-                    "------------------------------------\n";
+            string.append("id: [").append(pf.getId()).append("] \n").append("name: [").append(pf.getName()).append("] \n").append("description: [").append(pf.getDescription()).append("]\n").append("------------------------------------\n");
         }
-        return string;
+        return string.toString();
     }
 
     public void updateProgramManager(FidelityProgram pf) throws SQLException, DateMistake {
