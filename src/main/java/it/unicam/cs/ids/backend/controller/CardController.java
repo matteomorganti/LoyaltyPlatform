@@ -49,7 +49,7 @@ public class CardController {
         while (resultSet.next()){
             if(c.getId()== resultSet.getInt("clientid_c")){
                 RegisterController cr= new RegisterController();
-                cr.viewClients();
+                cr.viewCustomers();
                 BranchController cp= new BranchController();
                 cp.viewBranch();
                 Branch addBranch = cp.findById(resultSet.getString("branch_b"));
