@@ -51,7 +51,7 @@ public class CardController {
                 RegisterController cr= new RegisterController();
                 cr.viewClients();
                 BranchController cp= new BranchController();
-                cp.viewbranch();
+                cp.viewBranch();
                 Branch addBranch = cp.findById(resultSet.getString("branch_b"));
                 Customer addCustomer = cr.getByID(resultSet.getInt("clientid_c"));
                 FidelityCard cf= new FidelityCard(resultSet.getInt("id_fc"), resultSet.getString("name_fc"),

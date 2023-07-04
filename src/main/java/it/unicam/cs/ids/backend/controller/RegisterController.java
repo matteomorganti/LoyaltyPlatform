@@ -139,7 +139,7 @@ public class RegisterController {
         while (resultSet.next()){
             BranchController conn= new BranchController();
             getAllRetailers();
-            conn.viewbranch();
+            conn.viewBranch();
             Branch bAdd= conn.findById(resultSet.getString("branchname_b"));
             Cashier bc= new Cashier(resultSet.getInt("id_cs"), resultSet.getString("name_cs"),resultSet.getString("cognome_cp"),
                     resultSet.getString("address_cs"),resultSet.getString("email_cs"),

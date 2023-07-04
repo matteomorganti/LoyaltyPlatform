@@ -11,9 +11,9 @@ import java.util.Set;
 
 public class BranchController {
 
-    private Set<FidelityProgram> fidelityPrograms;
-    private List<Customer> customerList;
-    private Set<Branch> branches;
+    private final Set<FidelityProgram> fidelityPrograms;
+    private final List<Customer> customerList;
+    private final Set<Branch> branches;
 
     private int pointsCount;
     private int lvlCount;
@@ -41,10 +41,8 @@ public class BranchController {
     /**
      * Metodo che visualizza il programma a
      * punti del titolare della proprio punto vendita
-     * @return il set dei programmi a punti
-     * @throws SQLException
      */
-    public Set<FidelityProgram> viewProgramPointOwner(Branch pv) throws SQLException {
+    public void viewProgramPointOwner(Branch pv) throws SQLException {
         String table="programpointowner";
         ResultSet resultset= DBMSController.selectAllFromTable(table);
         while (resultset.next()){
@@ -57,16 +55,13 @@ public class BranchController {
                 pointsCount++;
             }
         }
-        return this.fidelityPrograms;
     }
 
     /**
      * Metodo che visualizza il programma a
      * livelli del titolare della proprio punto vendita
-     * @return il set dei programmi a punti
-     * @throws SQLException
      */
-    public Set<FidelityProgram> viewLvlProgramOwner(Branch pv) throws SQLException {
+    public void viewLvlProgramOwner(Branch pv) throws SQLException {
         String table="lvlprogramowner";
         ResultSet resultset= DBMSController.selectAllFromTable(table);
         while (resultset.next()){
@@ -80,7 +75,6 @@ public class BranchController {
                 lvlCount++;
             }
         }
-        return this.fidelityPrograms;
     }
 
     public void addBranch(Branch pv) throws DateMistake,SQLException {
@@ -105,7 +99,7 @@ public class BranchController {
         return branch;
     }
 
-    public Set<Branch> viewbranch() throws SQLException, DateMistake {
+    public void viewBranch() throws SQLException, DateMistake {
         String table = "branch";
         ResultSet resultset = DBMSController.selectAllFromTable(table);
         while (resultset.next()) {
@@ -115,10 +109,9 @@ public class BranchController {
                     resultset.getString("address_o"), titolareDaAggiungere);
             this.branches.add(branch);
         }
-        return this.branches;
     }
 
-    public int addPointsCard(int boughtItems, PointsProgram pp, FidelityCard cf, Coupon coupon) throws SQLException {
+    public void addPointsCard(int boughtItems, PointsProgram pp, FidelityCard cf, Coupon coupon) throws SQLException {
         int earnedPoints=cf.getCurrPoints()+(boughtItems/pp.getPointXValue());
         String query="UPDATE fidelitycard SET currentpoints ='"+earnedPoints+"'WHERE id_cf= '"+cf.getId()+"'";
         if(earnedPoints>=pp.getTotalPoints()){
@@ -129,23 +122,20 @@ public class BranchController {
             DBMSController.insertQuery(query1);
         }
         DBMSController.insertQuery(query);
-        return earnedPoints;
 
     }
 
-    public int cardLvlUp(int boughtItems, LevellingProgram pl, FidelityCard cf) throws SQLException {
+    public void cardLvlUp(int boughtItems, LevellingProgram pl, FidelityCard cf) throws SQLException {
         int lvlPercentage=cf.getPercentLevel()+(boughtItems/pl.getLvlPercentage());
-        if(lvlPercentage>=pl.getTotalPoints()){
-            if(cf.getCurrLevel()<pl.getMaxLevel()){
+        if(lvlPercentage>=pl.getTotalPoints() && (cf.getCurrLevel()<pl.getMaxLevel())){
                 int subtraction=lvlPercentage-pl.getTotalPoints();
                 int lvlup=cf.getCurrLevel()+1;
                 String query="UPDATE fidelitycard SET currentlvl ='"+lvlup+"', lvlpercentage= '"+subtraction+"'WHERE id_fc= '"+cf.getId()+"'";
                 DBMSController.insertQuery(query);
-            }
+
         }
         String query="UPDATE fidelitycard SET lvlpercecntage= '"+lvlPercentage+"'WHERE id_fc= '"+cf.getId()+"'";
         DBMSController.insertQuery(query);
-        return lvlPercentage;
     }
 
     public boolean deleteById(int id) throws SQLException {
@@ -162,7 +152,6 @@ public class BranchController {
                 query = "DELETE FROM ownerlevellingprogram WHERE name_olp='" + pl.getName() + "';";
             }
             DBMSController.removeQuery(query);
-            return true;
         }
         return false;
     }
@@ -179,25 +168,19 @@ public class BranchController {
         return programFel;
     }
     public String fidelityProgramtoString() {
-        String string ="";
+        StringBuilder string = new StringBuilder();
         for (FidelityProgram pf : fidelityPrograms){
-            string+= "id: ["+pf.getId()+"] \n" +
-                    "name: ["+pf.getName()+"] \n" +
-                    "description: ["+pf.getDescription()+"]\n" +
-                    "------------------------------------\n";
+            string.append("id: [").append(pf.getId()).append("] \n").append("name: [").append(pf.getName()).append("] \n").append("description: [").append(pf.getDescription()).append("]\n").append("------------------------------------\n");
         }
-        return string;
+        return string.toString();
     }
 
-    public String BranchestoString() {
-        String string ="";
+    public String branchestoString() {
+        StringBuilder string = new StringBuilder();
         for (Branch pv : branches){
-            string+= "id: ["+ pv.getBranchName()+"] \n" +
-                    "name: ["+ pv.getAddress()+"] \n" +
-                    "description"+ pv.getOwner()+"]\n" +
-                    "------------------------------------\n";
+            string.append("id: [").append(pv.getBranchName()).append("] \n").append("name: [").append(pv.getAddress()).append("] \n").append("description").append(pv.getOwner()).append("]\n").append("------------------------------------\n");
         }
-        return string;
+        return string.toString();
     }
 
 }
