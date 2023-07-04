@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class FidelityCard {
 
-    private int id;
+    private final int id;
 
     private String cardName;
 
@@ -15,7 +15,7 @@ public class FidelityCard {
 
     private final Branch branchCard;
 
-    private Customer customer;
+    private final Customer customer;
 
     private int currPoints;
     private int currlvl;
@@ -29,8 +29,8 @@ public class FidelityCard {
         this.cardName = cardName;
         this.expiration = expiration;
         branchController = new BranchController();
-        branchController.viewOwnerPointsProgram(branchCard);
-        branchController.viewOwnerPointsProgramLevel(branchCard);
+        branchController.viewProgramPointOwner(branchCard);
+        branchController.viewLvlProgramOwner(branchCard);
         if(branchController.getCountPoints()>0 && branchController.getCountLevels()==0){
             currPoints =0;
         } else if (branchController.getCountLevels()>0 && branchController.getCountPoints()==0) {
@@ -76,8 +76,7 @@ public class FidelityCard {
 
     private int randomInt(){
         double doubleRandom=Math.random()*6000;
-        int intRandom= (int) doubleRandom;
-        return intRandom;
+        return (int) doubleRandom;
     }
 
     public int  getId() {

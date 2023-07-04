@@ -10,7 +10,7 @@ public class BranchManager extends User {
 
     private final FidelityController createFidelityProgram;
 
-    private boolean active;
+    private  boolean active;
     private CreditCard card;
 
     public BranchManager(int id, String name, String surname, String address, String emailBusiness, String username, String password, int telephone, boolean active, CreditCard card) {
@@ -43,7 +43,8 @@ public class BranchManager extends User {
     }
 
     public void pay() throws DateMistake, SQLException {
-
+        signUp.addOwner(this);
+        active =true;
     }
 
     public void addBranchFidelityProgram(int id) throws ExceptionAbilitation, SQLException, DateMistake {

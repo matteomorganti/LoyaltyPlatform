@@ -8,7 +8,7 @@ public class Cashier extends User {
 
     private final BranchController branchController;
     private final CardController cardController;
-    private Branch branch;
+    private final Branch branch;
 
     public Cashier(String name, String surname, String address, String businessMail, String username, String password, int pohneNumber, Branch branch) {
         super(name, surname, address,businessMail, username, password, pohneNumber);

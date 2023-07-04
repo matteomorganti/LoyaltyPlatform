@@ -1,12 +1,12 @@
 package it.unicam.cs.ids.backend.model;
 
 public class Coupon {
-    private int idCoupon;
-    private String couponName;
-    private int pointCost;
+    private final int idCoupon;
+    private final String couponName;
+    private final int pointCost;
 
-    private PointsProgram pp;
-    private Customer c;
+    private final PointsProgram pp;
+    private final Customer c;
 
     public Coupon(int idCoupon, String couponName, int pointCost, PointsProgram pp, Customer c) {
         this.idCoupon = idCoupon;
@@ -25,12 +25,11 @@ public class Coupon {
     }
 
     private int randomInt() {
-        double doubleRandom=0;
+        double doubleRandom;
 
         doubleRandom=Math.random()*4000;
 
-        int intRandom=(int ) doubleRandom;
-        return intRandom;
+        return (int ) doubleRandom;
     }
 
     public int getIdCoupon() {

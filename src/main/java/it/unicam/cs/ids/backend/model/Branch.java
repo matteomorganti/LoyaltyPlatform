@@ -2,7 +2,7 @@ package it.unicam.cs.ids.backend.model;
 
 public class Branch {
 
-    private String branchName;
+    private final String branchName;
     private final String address;
     private final BranchManager owner;
 
