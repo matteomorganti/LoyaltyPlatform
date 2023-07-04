@@ -38,14 +38,14 @@ public class CreditCard {
         }
     }
 
-    public void incrementaSaldo(int addMoney) throws SQLException {
+    public void increaseBalance(int addMoney) throws SQLException {
         this.cardBalance +=addMoney;
         double incremento=this.cardBalance;
         String query="UPDATE creditcard SET cardbalance = '" +incremento+ "' WHERE id_cc = '" + this.getCardNumber() + "'";
         DBMSController.insertQuery(query);
     }
 
-    public void decrementaSaldo(int removeMoney) throws SQLException {
+    public void decreaseBalance(int removeMoney) throws SQLException {
         this.cardBalance -=removeMoney;
         double decremento=this.cardBalance;
         String query="UPDATE creditcard SET cardbalance = '" +decremento+ "' WHERE id_cc = '" + this.getCardNumber() + "'";
