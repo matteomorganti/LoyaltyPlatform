@@ -1,4 +1,6 @@
 package it.unicam.cs.ids.backend.model;
 
-public class TransactionState {
+public enum TransactionState {
+    WAITING,
+    PAID
 }
