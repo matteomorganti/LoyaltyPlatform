@@ -13,8 +13,6 @@ h
 8src/main/java/it/unicam/cs/ids/backend/model/Coupon.java,8\6\86fca0d450977d2ae03764ce0cd80fae8a289755
 i
 9src/main/java/it/unicam/cs/ids/backend/model/Cashier.java,b\a\ba6ed01ebc8fba907fd6714114cdcc06706c9a90
-o
-?src/main/java/it/unicam/cs/ids/backend/model/BranchManager.java,e\2\e2ec0c8a2940e44dc73e71bb5e5d23f1f69987aa
 h
 8src/main/java/it/unicam/cs/ids/backend/model/Branch.java,f\1\f109335b0ca02e0d514d1844ccf3416d42d2b517
 n

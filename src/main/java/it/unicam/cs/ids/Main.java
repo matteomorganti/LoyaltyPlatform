@@ -30,13 +30,14 @@ public class Main {
                 case 1 -> login();
                 case 2 -> registration();
                 case 3 -> flag = true;
+                default -> System.out.println("Invalid input, try again!");
             }
         } while (!flag);
 
         System.out.println("See you soon!");
     }
 
-    private static void registration() throws SQLException, DateMistake, ExceptionAbilitation {
+    private static void registration() throws SQLException, DateMistake {
         boolean flag = false;
         do {
             System.out.println("Name:");
@@ -164,19 +165,16 @@ public class Main {
                 int option = trialScannerInt();
 
                 switch (option) {
-                    case 1:
+                    case 1 -> {
                         createCardForCustomer(currentCashier);
                         flag = true;
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         addPointsToCustomer(currentCashier);
                         flag = true;
-                        break;
-                    case 3:
-                        flag = true;
-                        break;
-                    default:
-                        System.out.println("Invalid option. Please select a valid option.");
+                    }
+                    case 3 -> flag = true;
+                    default -> System.out.println("Invalid option. Please select a valid option.");
                 }
             }
         } while (!flag);
@@ -204,13 +202,13 @@ public class Main {
         int clientId = sc.nextInt();
         sc.nextLine(); // Consume the newline character after reading the int
         CARD_CONTROLLER.viewFidelityCard(REGISTER_CONTROLLER.getByID(clientId));
-        System.out.println(CARD_CONTROLLER.toString());
+        System.out.println(CARD_CONTROLLER);
         System.out.println("Card ID");
         int cardId = sc.nextInt();
         sc.nextLine(); // Consume the newline character after reading the int
         BRANCH_CONTROLLER.viewProgramPointOwner(currentCashier.getBranch());
         BRANCH_CONTROLLER.viewLvlProgramOwner(currentCashier.getBranch());
-        System.out.println(BRANCH_CONTROLLER.toString());
+        System.out.println(BRANCH_CONTROLLER);
         System.out.println("Insert program ID:");
         int idPf = sc.nextInt();
         sc.nextLine(); // Consume the newline character after reading the int
@@ -218,7 +216,7 @@ public class Main {
         int expense = sc.nextInt();
         sc.nextLine(); // Consume the newline character after reading the int
         COUPON_CONTROLLER.viewCoupon(currentCashier.getBranch());
-        System.out.println(COUPON_CONTROLLER.toString());
+        System.out.println(COUPON_CONTROLLER);
         System.out.println("Insert coupon:");
         int coupon = sc.nextInt();
         sc.nextLine(); // Consume the newline character after reading the int
@@ -259,7 +257,7 @@ public class Main {
     private static void handlePayOption(BranchManager owner) throws DateMistake, SQLException {
         owner = REGISTER_CONTROLLER.findById(owner.getId());
         if (!owner.isActive()) {
-            owner.pay();
+            owner.processPayment();
             System.out.println("You're subscribed!");
         } else {
             System.out.println("You're already subscribed!");
@@ -271,7 +269,7 @@ public class Main {
         if (owner.isActive()) {
             FIDELITY_CONTROLLER.viewProgramPoint();
             FIDELITY_CONTROLLER.viewProgramLevels();
-            System.out.println(FIDELITY_CONTROLLER.toString());
+            System.out.println(FIDELITY_CONTROLLER);
             System.out.println("Program Id:");
             int id = sc.nextInt();
             FidelityProgram fp = FIDELITY_CONTROLLER.findById(id);
@@ -294,7 +292,7 @@ public class Main {
                 lp.setLvlPercentage(lvlPercentage);
             }
             FIDELITY_CONTROLLER.updateProgramManager(fp);
-            owner.addBranchFidelityProgram(fp.getId());
+            owner.addBranchToFidelityProgram(fp.getId());
             System.out.println("The program id: " + id + " has been added!");
 
             System.out.println("Coupon creation");
@@ -326,7 +324,7 @@ public class Main {
             }
             BRANCH_CONTROLLER.viewProgramPointOwner(branch);
             BRANCH_CONTROLLER.viewLvlProgramOwner(branch);
-            System.out.println(BRANCH_CONTROLLER.toString());
+            System.out.println(BRANCH_CONTROLLER);
             System.out.println("Program ID:");
             int id = sc.nextInt();
             BRANCH_CONTROLLER.deleteById(id);
@@ -378,7 +376,7 @@ public class Main {
 
 
     private static void ownerHome() throws SQLException, DateMistake, ExceptionAbilitation {
-        boolean flag = false;
+        boolean flag;
         BranchManager owner;
 
         do {
@@ -424,7 +422,7 @@ public class Main {
             }
             if(locale)
             {
-                System.out.println("Welcome! "+ customer.getUsername()+" : id "+ customer.getId()+"");
+                System.out.println("Welcome! "+ customer.getUsername()+" : id "+ customer.getId());
                 System.out.println("Select an option:");
                 System.out.println("1-Search a Branch");
                 System.out.println("2-Profile");
@@ -442,14 +440,13 @@ public class Main {
                         Date expiration= new Date(expirationDate);
                         FidelityCard fc= new FidelityCard(cardName,expiration, BRANCH_CONTROLLER.findById(branchName), customer);
                         customer.createCard(fc);
-                        System.out.println("Excellent your card has been created! "+ branchName
-                                +"");
+                        System.out.println("Excellent your card has been created! "+ branchName);
                         flag=true;
                     }
                     case 2->{
                         CARD_CONTROLLER.viewFidelityCard(customer);
                         System.out.println("Fidelity card list");
-                        System.out.println(CARD_CONTROLLER.toString());
+                        System.out.println(CARD_CONTROLLER);
                         flag=true;
                     }
                     case 3-> flag=true;
