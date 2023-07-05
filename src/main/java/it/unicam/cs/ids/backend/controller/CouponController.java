@@ -15,15 +15,34 @@ public class CouponController {
         this.couponList = new ArrayList<>();
     }
 
+    /**
+     * Returns the list of coupons.
+     *
+     * @return the list of coupons
+     */
     public List<Coupon> getcouponList() {
         return couponList;
     }
 
+    /**
+     * Adds a coupon to the database.
+     *
+     * @param c the coupon to be added
+     * @throws SQLException if an SQL exception occurs
+     */
     public void addCoupon(Coupon c) throws SQLException {
         String query = "INSERT INTO coupon (id_opp, id_coupon, coupon_name, pointcost) VALUES('" + c.getPointsProgram().getId() + "','" + c.getIdCoupon() + "','" + c.getCouponName() + "', '" + c.getPointCost() + "')";
         DBMSController.insertQuery(query);
     }
 
+    /**
+     * Retrieves and returns the list of coupons associated with a branch.
+     *
+     * @param pv the branch to view coupons for
+     * @return the list of coupons associated with the branch
+     * @throws SQLException    if an SQL exception occurs
+     * @throws DateMistake     if a date mistake occurs
+     */
     public List<Coupon> viewCoupon(Branch pv) throws SQLException, DateMistake {
         String table="coupon";
         ResultSet resultSet= DBMSController.selectAllFromTable(table);
@@ -44,6 +63,12 @@ public class CouponController {
         return this.couponList;
     }
 
+    /**
+     * Retrieves a coupon by its ID.
+     *
+     * @param id the ID of the coupon
+     * @return the coupon with the specified ID, or null if not found
+     */
     public Coupon getByID(int id){
         Coupon coupon = null;
         for (Coupon cc : couponList) {
@@ -56,7 +81,11 @@ public class CouponController {
         return coupon;
     }
 
-
+    /**
+     * Returns a string representation of the CouponController object.
+     *
+     * @return a string representation of the CouponController object
+     */
     @Override
     public String toString() {
         String string ="";

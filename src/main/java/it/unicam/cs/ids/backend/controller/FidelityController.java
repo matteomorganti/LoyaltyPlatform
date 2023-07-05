@@ -12,10 +12,21 @@ public class FidelityController {
         programList = new ArrayList<>();
     }
 
+    /**
+     * Returns the list of fidelity programs.
+     *
+     * @return the list of fidelity programs
+     */
     public List<FidelityProgram> getProgramList() {
         return programList;
     }
 
+    /**
+     * Adds a fidelity program to the list and inserts it into the database.
+     *
+     * @param programFel the fidelity program to add
+     * @throws SQLException if an error occurs while executing the SQL query
+     */
     public void addFidelityProgram(FidelityProgram programFel) throws SQLException {
         programList.add(programFel);
         String query = "";
@@ -28,6 +39,12 @@ public class FidelityController {
         DBMSController.insertQuery(query);
     }
 
+    /**
+     * Retrieves all points-based fidelity programs from the database and returns them as a list.
+     *
+     * @return the list of points-based fidelity programs
+     * @throws SQLException if an error occurs while executing the SQL query
+     */
     public List<FidelityProgram> viewProgramPoint() throws SQLException {
         ResultSet resultset1 = DBMSController.selectAllFromTable("pointsprogram");
         while (resultset1.next()) {
@@ -39,6 +56,12 @@ public class FidelityController {
         return this.programList;
     }
 
+    /**
+     * Retrieves all leveling-based fidelity programs from the database and returns them as a list.
+     *
+     * @return the list of leveling-based fidelity programs
+     * @throws SQLException if an error occurs while executing the SQL query
+     */
     public List<FidelityProgram> viewProgramLevels() throws SQLException {
         ResultSet resultset = DBMSController.selectAllFromTable("levellingprogram");
         while (resultset.next()) {
@@ -51,6 +74,12 @@ public class FidelityController {
         return this.programList;
     }
 
+    /**
+     * Finds a fidelity program by its ID.
+     *
+     * @paramid the ID of the fidelity program to find
+     * @return the fidelity program with the specified ID
+     */
     public FidelityProgram findById(int id) {
         FidelityProgram programFel = null;
         for (FidelityProgram p : this.programList) {
@@ -63,6 +92,13 @@ public class FidelityController {
         return programFel;
     }
 
+    /**
+     * Deletes a fidelity program with the specified ID from the list and the database.
+     *
+     * @param id the ID of the fidelity program to delete
+     * @return true if the fidelity program was successfully deleted, false otherwise
+     * @throws SQLException if an error occurs while executing the SQL query
+     */
     public boolean deleteById(int id) throws SQLException {
         if (findById(id) == null) {
             throw new NullPointerException("Fidelity program not found");
@@ -82,6 +118,14 @@ public class FidelityController {
         return false;
     }
 
+    /**
+     * Adds a program owner to a fidelity program.
+     *
+     * @param t  the branch manager to add as the program owner
+     * @param id the ID of the fidelity program
+     * @throws SQLException   if an error occurs while executing the SQL query
+     * @throws DateMistake    if there is an issue with the date
+     */
     public void addProgramOwner(BranchManager t, int id) throws SQLException, DateMistake {
         if (findById(id) != null) {
             if (findById(id) instanceof PointsProgram pointsProgram) {
@@ -94,6 +138,11 @@ public class FidelityController {
         }else  throw new DateMistake();
     }
 
+    /**
+     * Returns a string representation of the FidelityController object.
+     *
+     * @return a string representation of the FidelityController object
+     */
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
@@ -103,6 +152,13 @@ public class FidelityController {
         return string.toString();
     }
 
+    /**
+     * Updates the program manager for a fidelity program.
+     *
+     * @param pf the fidelity program to update
+     * @throws SQLException if an error occurs while executing the SQL query
+     * @throws DateMistake  if there is an issue with the date
+     */
     public void updateProgramManager(FidelityProgram pf) throws SQLException, DateMistake {
         if (findById(pf.getId()) != null) {
             if (findById(pf.getId()) instanceof PointsProgram pp) {
