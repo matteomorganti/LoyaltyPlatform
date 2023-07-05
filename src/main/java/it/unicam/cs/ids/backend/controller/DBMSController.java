@@ -3,8 +3,6 @@ package it.unicam.cs.ids.backend.controller;
 import it.unicam.cs.ids.backend.util.ConsoleLog;
 
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The DBMSController class handles the connection and operations with the database.
