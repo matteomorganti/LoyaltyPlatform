@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.backend.controller;
 
+import it.unicam.cs.ids.backend.util.ConsoleLog;
+
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +15,6 @@ public class DBMSController {
     private static final String USER = "wriuymww";
     private static final String PASSWORD = "OM8NJJV8KVuOu6rSnEqkdqXhu_RDzpUF";
     private static Connection connection;
-    private static final Logger logger = Logger.getLogger(DBMSController.class.getName());
 
     private DBMSController() {
     }
@@ -24,9 +25,9 @@ public class DBMSController {
     public static void init() {
         try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            logger.info("Connected!");
+            ConsoleLog.log("Connected!");
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Not connected", e);
+            ConsoleLog.error("Not connected");
         }
     }
 
@@ -39,7 +40,7 @@ public class DBMSController {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error executing INSERT query", e);
+            ConsoleLog.error("Error executing INSERT query");
         }
     }
 
@@ -52,7 +53,7 @@ public class DBMSController {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error executing REMOVE query", e);
+            ConsoleLog.error("Error executing REMOVE query");
         }
     }
 
@@ -66,7 +67,7 @@ public class DBMSController {
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table)) {
             return statement.executeQuery();
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error executing SELECT query", e);
+            ConsoleLog.error("Error executing SELECT query");
         }
         return null;
     }
@@ -86,7 +87,7 @@ public class DBMSController {
                 return 0;
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error getting row count", e);
+            ConsoleLog.error("Error getting row count");
         }
         return 0;
     }

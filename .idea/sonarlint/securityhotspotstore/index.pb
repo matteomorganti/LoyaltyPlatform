@@ -1,25 +1,5 @@
 
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-w
-Gsrc/main/java/it/unicam/cs/ids/backend/controller/CouponController.java,d\d\dd306553d0dab1c6a1d04848dbec28ff32527e09
-j
-:src/main/java/it/unicam/cs/ids/backend/model/Customer.java,b\c\bcb0988776aa528426400204d895c0cc9d975dbc
-l
-<src/main/java/it/unicam/cs/ids/backend/model/CreditCard.java,9\0\90f538efd807c1f05ffd1de1e9be495c92d355b4
-h
-8src/main/java/it/unicam/cs/ids/backend/model/Coupon.java,8\6\86fca0d450977d2ae03764ce0cd80fae8a289755
-i
-9src/main/java/it/unicam/cs/ids/backend/model/Cashier.java,b\a\ba6ed01ebc8fba907fd6714114cdcc06706c9a90
-n
->src/main/java/it/unicam/cs/ids/backend/model/FidelityCard.java,8\8\887a78a4ddae4fb50af5bd51de07fd2a1897db42
 r
 Bsrc/main/java/it/unicam/cs/ids/backend/model/LevellingProgram.java,9\1\912a39197f4537057f832182683572c60e9f81dd
-q
-Asrc/main/java/it/unicam/cs/ids/backend/model/PlatformManager.java,3\4\34b63ad85911c26ae794704635845d71084742a4
-o
-?src/main/java/it/unicam/cs/ids/backend/model/PointsProgram.java,f\a\faae61f4225885808a585c75b74bfade0df9f60a
-r
-Bsrc/main/java/it/unicam/cs/ids/backend/model/TransactionState.java,2\4\2465341ca58a269511a061db1a6e63a58c0a4ef9
-f
-6src/main/java/it/unicam/cs/ids/backend/model/User.java,1\e\1ea51fd6741e4e6c0e4f010fddf39a9b55505f85

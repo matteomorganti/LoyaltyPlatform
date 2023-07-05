@@ -8,9 +8,12 @@ public class ConsoleLog {
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_RED = "\u001B[31m";
-
     private static final PrintStream OUT = out;
-    private static final PrintStream ERR= err;
+    private static final PrintStream ERR = err;
+
+    private ConsoleLog() {
+        // Private constructor to prevent instantiation
+    }
 
     public static void log(String message) {
         OUT.print(ANSI_GREEN);
