@@ -66,7 +66,7 @@ public class Customer extends User {
      */
     public void createCard(FidelityCard cf) throws DateMistake, SQLException {
         for (FidelityCard c : this.fidelityCards) {
-            if (c.branchCard() == cf.branchCard()) {
+            if (c.getBranchCard() == cf.getBranchCard()) {
                 throw new DateMistake("You can't create 2 cards in the same branch!");
             }
         }
