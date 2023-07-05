@@ -54,7 +54,7 @@ public class RegisterController {
     /**
      * Registers a new branch owner.
      *
-     * @param owner The branch owner to register.
+     * @param o The branch owner to register.
      * @throws SQLException If an SQL exception occurs.
      */
     public void ownerRegistration(BranchManager o) throws SQLException {
@@ -246,7 +246,7 @@ public class RegisterController {
     /**
      * Updates the credit card information for a branch owner.
      *
-     * @param owner The branch owner to update.
+     * @param o The branch owner to update.
      * @param cc    The credit card to set.
      * @throws SQLException If an SQL exception occurs.
      */
@@ -254,7 +254,7 @@ public class RegisterController {
         String query="UPDATE owners SET ccid_cc = '" + cc.getCardNumber() + "' WHERE id_o = '" + o.getId() + "'";
         DBMSController.insertQuery(query);
     }
-    
+
     /**
      * Retrieves a string representation of the registered customers.
      *
