@@ -119,7 +119,7 @@ public class BranchController {
         String query="UPDATE fidelitycard SET currentpoints ='"+earnedPoints+"'WHERE id_cf= '"+cf.getId()+"'";
         if(earnedPoints>=pp.getTotalPoints()){
             //sblocca coupon da ritirare
-            String query1="UPDATE coupon SET clientiid_c ='"+cf.getClient().getId()+"'WHERE id_coupon= '"+coupon.getIdCoupon()+"'";
+            String query1="UPDATE coupon SET clientiid_c ='"+cf.getCustomer().getId()+"'WHERE id_coupon= '"+coupon.getIdCoupon()+"'";
             int pointsDetraction=earnedPoints-coupon.getPointCost();
             query="UPDATE fidelitycard SET currentpoints ='"+pointsDetraction+"'WHERE id_cf= '"+cf.getId()+"'";
             DBMSController.insertQuery(query1);
