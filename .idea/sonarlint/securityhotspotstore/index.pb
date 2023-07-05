@@ -1,6 +1,4 @@
 
-<
-build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 w
@@ -13,8 +11,6 @@ h
 8src/main/java/it/unicam/cs/ids/backend/model/Coupon.java,8\6\86fca0d450977d2ae03764ce0cd80fae8a289755
 i
 9src/main/java/it/unicam/cs/ids/backend/model/Cashier.java,b\a\ba6ed01ebc8fba907fd6714114cdcc06706c9a90
-h
-8src/main/java/it/unicam/cs/ids/backend/model/Branch.java,f\1\f109335b0ca02e0d514d1844ccf3416d42d2b517
 n
 >src/main/java/it/unicam/cs/ids/backend/model/FidelityCard.java,8\8\887a78a4ddae4fb50af5bd51de07fd2a1897db42
 r
