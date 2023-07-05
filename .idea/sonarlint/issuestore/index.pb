@@ -23,5 +23,3 @@ r
 Bsrc/main/java/it/unicam/cs/ids/backend/model/TransactionState.java,2\4\2465341ca58a269511a061db1a6e63a58c0a4ef9
 f
 6src/main/java/it/unicam/cs/ids/backend/model/User.java,1\e\1ea51fd6741e4e6c0e4f010fddf39a9b55505f85
-w
-Gsrc/main/java/it/unicam/cs/ids/backend/controller/BranchController.java,7\a\7ab5fa8be0af9141fd03e47f5fa4c124f8bf4a0c

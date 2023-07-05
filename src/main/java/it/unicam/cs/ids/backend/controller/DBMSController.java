@@ -6,9 +6,10 @@ import java.util.logging.Logger;
 
 public class DBMSController {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/LoyaltyPlatform";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "password";
+    //username db: matteo.morganti99@gmail.com password db: loyaltyplatform2023!
+    private static final String URL = "jdbc:postgresql://tyke.db.elephantsql.com:5432/wriuymww";
+    private static final String USER = "wriuymww";
+    private static final String PASSWORD = "OM8NJJV8KVuOu6rSnEqkdqXhu_RDzpUF";
     private static Connection connection;
     private static final Logger logger = Logger.getLogger(DBMSController.class.getName());
 
