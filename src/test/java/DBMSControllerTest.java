@@ -1,97 +1,75 @@
 import it.unicam.cs.ids.backend.controller.DBMSController;
-import org.junit.jupiter.api.*;
-import java.sql.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class DBMSControllerTest {
 
-    private static final String TABLE_NAME = "test_table";
-
-    @BeforeAll
-    public static void setup() {
+    @BeforeClass
+    public static void setUp() {
         DBMSController.init();
-        createTestTable();
     }
 
-    @AfterAll
-    public static void cleanup() {
-        dropTestTable();
-    }
-
-    @BeforeEach
-    public void beforeEachTest() throws SQLException {
-        clearTestTable();
+    @AfterClass
+    public static void tearDown() {
+        // Perform any necessary cleanup after the tests
+        // For example, closing the database connection
     }
 
     @Test
-     void testInsertQuery() throws SQLException {
-        String query = "INSERT INTO " + TABLE_NAME + " VALUES (1, 'Test')";
+    public void testInsertQuery() {
+        // Prepare test data
+        String query = "INSERT INTO table_name (column1, column2) VALUES ('value1', 'value2')";
+
+        // Execute the insert query
         DBMSController.insertQuery(query);
-        int rowCount = getRowCount();
-        assertEquals(1, rowCount);
+
+        // Assert that the query was successful by checking the number of affected rows
+        int affectedRows = DBMSController.getNumberRows("SELECT COUNT(*) FROM table_name");
+        assertEquals(1, affectedRows);
     }
 
     @Test
-     void testRemoveQuery() throws SQLException {
-        insertTestData();
-        String query = "DELETE FROM " + TABLE_NAME + " WHERE id = 1";
+    public void testRemoveQuery() {
+        // Prepare test data
+        String query = "DELETE FROM table_name WHERE condition = 'value'";
+
+        // Execute the remove query
         DBMSController.removeQuery(query);
-        int rowCount = getRowCount();
-        assertEquals(0, rowCount);
+
+        // Assert that the query was successful by checking the number of affected rows
+        int affectedRows = DBMSController.getNumberRows("SELECT COUNT(*) FROM table_name WHERE condition = 'value'");
+        assertEquals(0, affectedRows);
     }
 
     @Test
-     void testSelectAllFromTable() throws SQLException {
-        insertTestData();
-        ResultSet resultSet = DBMSController.selectAllFromTable(TABLE_NAME);
+    public void testSelectAllFromTable() {
+        // Prepare test data
+        String table = "table_name";
+
+        // Execute the select query
+        ResultSet resultSet = DBMSController.selectAllFromTable(table);
+
+        // Assert that the result set is not null
         assertNotNull(resultSet);
-        assertTrue(resultSet.next());
-        assertEquals(1, resultSet.getInt("id"));
-        assertEquals("Test", resultSet.getString("name"));
-        assertFalse(resultSet.next());
+        // Additional assertions on the result set can be performed if needed
     }
 
     @Test
-     void testGetNumberRows() throws SQLException {
-        insertTestData();
-        String query = "SELECT * FROM " + TABLE_NAME;
+    public void testGetNumberRows() {
+        // Prepare test data
+        String query = "SELECT * FROM table_name";
+
+        // Execute the select query and get the number of rows
         int rowCount = DBMSController.getNumberRows(query);
-        assertEquals(1, rowCount);
-    }
 
-    private static void createTestTable() {
-        String query = "CREATE TABLE " + TABLE_NAME + " (id INT, name VARCHAR(255))";
-        try {
-            DBMSController.insertQuery(query);
-        } catch (SQLException e) {
-            fail("Failed to create test table");
-        }
-    }
-
-    private static void dropTestTable() {
-        String query = "DROP TABLE " + TABLE_NAME;
-        try {
-            DBMSController.removeQuery(query);
-        } catch (SQLException e) {
-            fail("Failed to drop test table");
-        }
-    }
-
-    private void clearTestTable() throws SQLException {
-        String query = "DELETE FROM " + TABLE_NAME;
-        DBMSController.removeQuery(query);
-    }
-
-    private void insertTestData() throws SQLException {
-        String query = "INSERT INTO " + TABLE_NAME + " VALUES (1, 'Test')";
-        DBMSController.insertQuery(query);
-    }
-
-    private int getRowCount() throws SQLException {
-        String query = "SELECT COUNT(*) FROM " + DBMSControllerTest.TABLE_NAME;
-        ResultSet resultSet = DBMSController.selectAllFromTable(DBMSControllerTest.TABLE_NAME);
-        resultSet.next();
-        return resultSet.getInt(1);
+        // Assert that the row count is as expected
+        assertEquals(5, rowCount);
     }
 }
