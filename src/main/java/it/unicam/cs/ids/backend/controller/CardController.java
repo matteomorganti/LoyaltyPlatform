@@ -19,7 +19,7 @@ public class CardController {
 
     public void addCard(FidelityCard c) throws DateMistake, SQLException {
         if(findById(c.getId())==null){
-            String query= "INSERT INTO fidelitycard (id_fc, name_fc, expiration_fc, currpoints, currlevel, percentlevel, branch_b, clientid_c ) VALUES('" + c.getId() + "', '" + c.getCardName() + "', '" +c.getExpiration() + "', '" + c.getCurrPoints() + "', '" + c.getCurrLevel() + "', '" + c.getPercentLevel() + "', '" + c.branchCard().getBranchName() + "', '" + c.getClient().getId() + "')";
+            String query= "INSERT INTO fidelitycard (id_fc, name_fc, expiration_fc, currpoints, currlevel, percentlevel, branch_b, clientid_c ) VALUES('" + c.getId() + "', '" + c.getCardName() + "', '" +c.getExpiration() + "', '" + c.getCurrPoints() + "', '" + c.getCurrLevel() + "', '" + c.getPercentLevel() + "', '" + c.getBranchCard().getBranchName() + "', '" + c.getCustomer().getId() + "')";
             DBMSController.insertQuery(query);
         }
         else throw new DateMistake("La carta é gia esistente");
@@ -68,8 +68,8 @@ public class CardController {
         for (FidelityCard cf : fidelityCardList){
             string+= "id: ["+ cf.getId()+"] \n" +
                     "scadenza: ["+ cf.getExpiration()+"] \n" +
-                    "cliente: ["+ cf.getClient().getUsername()+"] \n" +
-                    "puntovendita: ["+cf.branchCard()+"]\n" +
+                    "cliente: ["+ cf.getCustomer().getUsername()+"] \n" +
+                    "puntovendita: ["+cf.getBranchCard()+"]\n" +
                     "punticorrenti: ["+cf.getCurrPoints()+"]\n" +
                     "livellocorrente: ["+cf.getCurrLevel()+"]\n" +
                     "-------------------------------------------------\n";
