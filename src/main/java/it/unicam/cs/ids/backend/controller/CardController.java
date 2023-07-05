@@ -10,6 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The CardController class handles the management of fidelity cards.
+ */
+
 public class CardController {
     private final List<FidelityCard> fidelityCardList;
 
@@ -17,14 +21,27 @@ public class CardController {
         this.fidelityCardList = new ArrayList<>();
     }
 
+    /**
+     * Adds a fidelity card to the system.
+     *
+     * @param c the fidelity card to be added
+     * @throws DateMistake if the card already exists
+     * @throws SQLException if a database error occurs
+     */
     public void addCard(FidelityCard c) throws DateMistake, SQLException {
         if(findById(c.getId())==null){
             String query= "INSERT INTO fidelitycard (id_fc, name_fc, expiration_fc, currpoints, currlevel, percentlevel, branch_b, clientid_c ) VALUES('" + c.getId() + "', '" + c.getCardName() + "', '" +c.getExpiration() + "', '" + c.getCurrPoints() + "', '" + c.getCurrLevel() + "', '" + c.getPercentLevel() + "', '" + c.getBranchCard().getBranchName() + "', '" + c.getCustomer().getId() + "')";
             DBMSController.insertQuery(query);
         }
-        else throw new DateMistake("La carta é gia esistente");
+        else throw new DateMistake("The card already exists!");
     }
 
+    /**
+     * Finds a fidelity card by its ID.
+     *
+     * @param id the ID of the fidelity card
+     * @return the fidelity card with the specified ID, or null if not found
+     */
     public FidelityCard findById(int id) {
         FidelityCard fidelityCard =null;
         for (FidelityCard p: this.fidelityCardList){
@@ -38,10 +55,11 @@ public class CardController {
     }
 
     /**
-     * Metodo che restituisce
-     * tutte le carte di un singolo cliente;
+     * Retrieves and displays all fidelity cards of a customer.
      *
-     * @throws SQLException
+     * @param c the customer whose cards are to be displayed
+     * @throws SQLException if a database error occurs
+     * @throws DateMistake if a date mistake occurs
      */
     public void viewFidelityCard(Customer c) throws SQLException, DateMistake {
         String table="fidelitycard";
@@ -62,16 +80,22 @@ public class CardController {
             }
         }
     }
+
+    /**
+     * Returns a string representation of the CardController object.
+     *
+     * @return a string representation of the object
+     */
     @Override
     public String toString() {
         String string ="";
         for (FidelityCard cf : fidelityCardList){
             string+= "id: ["+ cf.getId()+"] \n" +
-                    "scadenza: ["+ cf.getExpiration()+"] \n" +
-                    "cliente: ["+ cf.getCustomer().getUsername()+"] \n" +
-                    "puntovendita: ["+cf.getBranchCard()+"]\n" +
-                    "punticorrenti: ["+cf.getCurrPoints()+"]\n" +
-                    "livellocorrente: ["+cf.getCurrLevel()+"]\n" +
+                    "expiration: ["+ cf.getExpiration()+"] \n" +
+                    "customer: ["+ cf.getCustomer().getUsername()+"] \n" +
+                    "branch: ["+cf.getBranchCard()+"]\n" +
+                    "currentPoints: ["+cf.getCurrPoints()+"]\n" +
+                    "currentLevel: ["+cf.getCurrLevel()+"]\n" +
                     "-------------------------------------------------\n";
         }
         return string;
