@@ -20,7 +20,7 @@ public class CouponController {
     }
 
     public void addCoupon(Coupon c) throws SQLException {
-        String query = "INSERT INTO coupon (id_opp, id_coupon, coupon_name, pointcost) VALUES('" + c.getPp().getId() + "','" + c.getIdCoupon() + "','" + c.getCouponName() + "', '" + c.getPointCost() + "')";
+        String query = "INSERT INTO coupon (id_opp, id_coupon, coupon_name, pointcost) VALUES('" + c.getPointsProgram().getId() + "','" + c.getIdCoupon() + "','" + c.getCouponName() + "', '" + c.getPointCost() + "')";
         DBMSController.insertQuery(query);
     }
 

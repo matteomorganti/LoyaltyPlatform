@@ -42,12 +42,12 @@ public class BranchController {
      * Metodo che visualizza il programma a
      * punti del titolare della proprio punto vendita
      */
-    public Set<FidelityProgram> viewProgramPointOwner(Branch pv) throws SQLException {
+    public Set<FidelityProgram> viewProgramPointOwner(Branch branch) throws SQLException {
         String table="programpointowner";
         ResultSet resultset= DBMSController.selectAllFromTable(table);
         while (resultset.next()){
             int id_titolare=resultset.getInt("ownerid_o");
-            if(id_titolare==pv.getOwner().getId()) {
+            if(id_titolare==branch.getOwner().getId()) {
                 FidelityProgram pp = new PointsProgram(resultset.getInt("id_opp"), resultset.getString("nome_ppt"),
                         resultset.getString("description_opp"),
                         resultset.getInt("pointsvalue_opp"), resultset.getInt("totpoints_opp"));
@@ -62,12 +62,12 @@ public class BranchController {
      * Metodo che visualizza il programma a
      * livelli del titolare della proprio punto vendita
      */
-    public Set<FidelityProgram> viewLvlProgramOwner(Branch pv) throws SQLException {
+    public Set<FidelityProgram> viewLvlProgramOwner(Branch branch) throws SQLException {
         String table="lvlprogramowner";
         ResultSet resultset= DBMSController.selectAllFromTable(table);
         while (resultset.next()){
             int id_titolare=resultset.getInt("id_o");
-            if(id_titolare==pv.getOwner().getId()) {
+            if(id_titolare==branch.getOwner().getId()) {
                 FidelityProgram pp = new LevellingProgram(resultset.getInt("id_olp"), resultset.getString("nome_plt"),
                         resultset.getString("description_olp"),
                         resultset.getInt("maxlvl_olp"), resultset.getInt("totpoints_olp"),
@@ -119,7 +119,7 @@ public class BranchController {
         String query="UPDATE fidelitycard SET currentpoints ='"+earnedPoints+"'WHERE id_cf= '"+cf.getId()+"'";
         if(earnedPoints>=pp.getTotalPoints()){
             //sblocca coupon da ritirare
-            String query1="UPDATE coupon SET clientiid_c ='"+cf.getClient().getId()+"'WHERE id_coupon= '"+coupon.getIdCoupon()+"'";
+            String query1="UPDATE coupon SET clientiid_c ='"+cf.getCustomer().getId()+"'WHERE id_coupon= '"+coupon.getIdCoupon()+"'";
             int pointsDetraction=earnedPoints-coupon.getPointCost();
             query="UPDATE fidelitycard SET currentpoints ='"+pointsDetraction+"'WHERE id_cf= '"+cf.getId()+"'";
             DBMSController.insertQuery(query1);
