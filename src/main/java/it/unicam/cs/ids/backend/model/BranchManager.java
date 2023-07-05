@@ -21,14 +21,14 @@ public class BranchManager extends User {
         this.createFidelityProgram = new FidelityController();
     }
 
-    public BranchManager(int id, String name, String surname, String address, String email, String username, String password, int telephone, boolean active) {
+    public BranchManager(int id, String name, String surname, String address, String email, String username, String password, long telephone, boolean active) {
         super(id, name, surname, address, email, username, password, telephone);
         this.active = active;
         this.signUp = new RegisterController();
         this.createFidelityProgram = new FidelityController();
     }
 
-    public BranchManager(String name, String surname, String address, String email, String username, String password, int telephone) {
+    public BranchManager(String name, String surname, String address, String email, String username, String password, long telephone) {
         super(name, surname, address, email, username, password, telephone);
         this.active =false;
         this.signUp = new RegisterController();

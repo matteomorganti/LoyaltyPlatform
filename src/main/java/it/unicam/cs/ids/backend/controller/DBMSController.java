@@ -25,9 +25,8 @@ public class DBMSController {
         }
     }
     public static void insertQuery(String query) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(query);
-        }
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
     }
 
     public static void removeQuery(String query) throws SQLException {

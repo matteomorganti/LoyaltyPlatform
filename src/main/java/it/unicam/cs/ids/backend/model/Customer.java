@@ -11,14 +11,14 @@ public class Customer extends User {
     private final CardController cardController;
 
 
-    public Customer(String name, String surname, String address, String email, String username, String password, int phoneNumber) {
-        super(name, surname, address, email, username, password, phoneNumber);
+    public Customer(String name, String surname, String address, String email, String username, String password, long telephone) {
+        super(name, surname, address, email, username, password, telephone);
         this.fidelityCards = new ArrayList<>();
         this.cardController = new CardController();
     }
 
-    public Customer(int id, String name, String surname, String address, String email, String username, String password, int phoneNumber) {
-        super(id, name, surname, address, email, username, password, phoneNumber);
+    public Customer(int id, String name, String surname, String address, String email, String username, String password, long telephone) {
+        super(id, name, surname, address, email, username, password, telephone);
         this.fidelityCards = new ArrayList<>();
         this.cardController = new CardController();
     }

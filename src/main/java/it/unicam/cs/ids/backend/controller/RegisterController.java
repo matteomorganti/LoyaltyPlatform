@@ -127,7 +127,7 @@ public class RegisterController {
 
     public void branchCashierRegistration(Cashier cashier) throws SQLException {
         if (isDataValid(cashier)) {
-            String query = "INSERT INTO cashier (id_c, name_cs, surname_cs, address_cs, email_cs, username_cs, password, phoneNumber_cs, branch_b) VALUES('" + cashier.getId() + "','" + cashier.getName() + "','" + cashier.getSurname() + "','" + cashier.getAddress() + "','" + cashier.getEmail() + "','" + cashier.getUsername() + "' ,'" + cashier.getPassword() + "' ,'" + cashier.getTelephone() + "', '" + cashier.getBranch().getBranchName() + "' )";
+            String query = "INSERT INTO cashier (id_cs, name_cs, surname_cs, address_cs, email_cs, username_cs, password, phoneNumber_cs, branch_b) VALUES('" + cashier.getId() + "','" + cashier.getName() + "','" + cashier.getSurname() + "','" + cashier.getAddress() + "','" + cashier.getEmail() + "','" + cashier.getUsername() + "' ,'" + cashier.getPassword() + "' ,'" + cashier.getTelephone() + "', '" + cashier.getBranch().getBranchName() + "' )";
             DBMSController.insertQuery(query);
         }
 
@@ -152,27 +152,27 @@ public class RegisterController {
 
     public Cashier getById(int id) throws SQLException, DateMistake {
         viewCashiers();
-        for(Cashier c: this.cashierList){
-            if(id==c.getId())
-                return c;
+        for(Cashier cs: this.cashierList){
+            if(id==cs.getId())
+                return cs;
         }
         return null;
     }
 
-    public void cardUpdate(BranchManager t, CreditCard cc) throws SQLException {
-        String query="UPDATE owners SET ccid_cc = '" + cc.getCardNumber() + "' WHERE id_o = '" + t.getId() + "'";
+    public void cardUpdate(BranchManager o, CreditCard cc) throws SQLException {
+        String query="UPDATE owners SET ccid_cc = '" + cc.getCardNumber() + "' WHERE id_o = '" + o.getId() + "'";
         DBMSController.insertQuery(query);
     }
 
 
     public String toStringCustomers() {
         String string ="";
-        for (Customer c : customers){
-            string+= "id: ["+c.getId()+"] \n" +
-                    "name: ["+c.getName()+"] \n" +
-                    "surname: ["+c.getSurname()+"]\n" +
-                    "address: ["+c.getAddress()+"]\n" +
-                    "email: ["+c.getEmail()+"]\n" +
+        for (Customer customer : customers){
+            string+= "id: ["+customer.getId()+"] \n" +
+                    "name: ["+customer.getName()+"] \n" +
+                    "surname: ["+customer.getSurname()+"]\n" +
+                    "address: ["+customer.getAddress()+"]\n" +
+                    "email: ["+customer.getEmail()+"]\n" +
                     "------------------------------------ \n";
         }
         return string;

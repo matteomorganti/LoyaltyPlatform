@@ -42,7 +42,7 @@ public class BranchController {
      * Metodo che visualizza il programma a
      * punti del titolare della proprio punto vendita
      */
-    public void viewProgramPointOwner(Branch pv) throws SQLException {
+    public Set<FidelityProgram> viewProgramPointOwner(Branch pv) throws SQLException {
         String table="programpointowner";
         ResultSet resultset= DBMSController.selectAllFromTable(table);
         while (resultset.next()){
@@ -55,13 +55,14 @@ public class BranchController {
                 pointsCount++;
             }
         }
+        return this.fidelityPrograms;
     }
 
     /**
      * Metodo che visualizza il programma a
      * livelli del titolare della proprio punto vendita
      */
-    public void viewLvlProgramOwner(Branch pv) throws SQLException {
+    public Set<FidelityProgram> viewLvlProgramOwner(Branch pv) throws SQLException {
         String table="lvlprogramowner";
         ResultSet resultset= DBMSController.selectAllFromTable(table);
         while (resultset.next()){
@@ -75,6 +76,7 @@ public class BranchController {
                 lvlCount++;
             }
         }
+        return this.fidelityPrograms;
     }
 
     public void addBranch(Branch pv) throws DateMistake,SQLException {
@@ -99,7 +101,7 @@ public class BranchController {
         return branch;
     }
 
-    public void viewBranch() throws SQLException, DateMistake {
+    public Set<Branch> viewBranch() throws SQLException, DateMistake {
         String table = "branch";
         ResultSet resultset = DBMSController.selectAllFromTable(table);
         while (resultset.next()) {
@@ -109,9 +111,10 @@ public class BranchController {
                     resultset.getString("address_o"), titolareDaAggiungere);
             this.branches.add(branch);
         }
+        return this.branches;
     }
 
-    public void addPointsCard(int boughtItems, PointsProgram pp, FidelityCard cf, Coupon coupon) throws SQLException {
+    public int addPointsCard(int boughtItems, PointsProgram pp, FidelityCard cf, Coupon coupon) throws SQLException {
         int earnedPoints=cf.getCurrPoints()+(boughtItems/pp.getPointXValue());
         String query="UPDATE fidelitycard SET currentpoints ='"+earnedPoints+"'WHERE id_cf= '"+cf.getId()+"'";
         if(earnedPoints>=pp.getTotalPoints()){
@@ -122,10 +125,10 @@ public class BranchController {
             DBMSController.insertQuery(query1);
         }
         DBMSController.insertQuery(query);
-
+        return earnedPoints;
     }
 
-    public void cardLvlUp(int boughtItems, LevellingProgram pl, FidelityCard cf) throws SQLException {
+    public int cardLvlUp(int boughtItems, LevellingProgram pl, FidelityCard cf) throws SQLException {
         int lvlPercentage=cf.getPercentLevel()+(boughtItems/pl.getLvlPercentage());
         if(lvlPercentage>=pl.getTotalPoints() && (cf.getCurrLevel()<pl.getMaxLevel())){
                 int subtraction=lvlPercentage-pl.getTotalPoints();
@@ -136,6 +139,7 @@ public class BranchController {
         }
         String query="UPDATE fidelitycard SET lvlpercecntage= '"+lvlPercentage+"'WHERE id_fc= '"+cf.getId()+"'";
         DBMSController.insertQuery(query);
+        return lvlPercentage;
     }
 
     public boolean deleteById(int id) throws SQLException {

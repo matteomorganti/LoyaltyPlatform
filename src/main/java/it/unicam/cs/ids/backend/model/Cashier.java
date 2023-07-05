@@ -10,14 +10,14 @@ public class Cashier extends User {
     private final CardController cardController;
     private final Branch branch;
 
-    public Cashier(String name, String surname, String address, String businessMail, String username, String password, int pohneNumber, Branch branch) {
+    public Cashier(String name, String surname, String address, String businessMail, String username, String password, long pohneNumber, Branch branch) {
         super(name, surname, address,businessMail, username, password, pohneNumber);
         this.branch =branch;
         this.branchController =new BranchController();
         this.cardController = new CardController();
     }
 
-    public Cashier(int id, String name, String surname, String address, String email, String username, String password, int phoneNumber, Branch branch) {
+    public Cashier(int id, String name, String surname, String address, String email, String username, String password, long phoneNumber, Branch branch) {
         super(id, name, surname, address, email, username, password, phoneNumber);
         this.branch = branch;
         this.branchController =new BranchController();

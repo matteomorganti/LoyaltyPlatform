@@ -8,11 +8,11 @@ public class User {
     private final String surname;
     private final String address;
     private final String email;
-    private final int telephone;
+    private final long telephone;
     private final String username;
     private final String password;
 
-    public User(String name, String surname, String address, String email, String username, String password, int telephone) {
+    public User(String name, String surname, String address, String email, String username, String password, long telephone) {
         this.id=randomInt();
         this.name = name;
         this.surname = surname;
@@ -23,7 +23,7 @@ public class User {
         this.telephone = telephone;
     }
 
-    public User(int id, String name, String surname, String address, String email, String username, String password, int telephone) {
+    public User(int id, String name, String surname, String address, String email, String username, String password, long telephone) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -63,7 +63,7 @@ public class User {
         return email;
     }
 
-    public int getTelephone() {
+    public long getTelephone() {
         return telephone;
     }
 

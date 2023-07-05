@@ -40,7 +40,7 @@ public class FidelityController {
     }
 
     public List<FidelityProgram> viewProgramLevels() throws SQLException {
-        ResultSet resultset = DBMSController.selectAllFromTable("programlivelli");
+        ResultSet resultset = DBMSController.selectAllFromTable("levellingprogram");
         while (resultset.next()) {
             FidelityProgram lvlProg = new LevellingProgram(resultset.getInt("id_lp"),
                     resultset.getString("name_lp"), resultset.getString("description_lp"),
@@ -88,7 +88,7 @@ public class FidelityController {
                 String query = "INSERT INTO ownerpointsprogram (id_opp, name_opp, description_opp, pointvalue_opp, totpoints_opp, ownerid_o ) VALUES('" + pointsProgram.getId() + "','" + pointsProgram.getName() + "','" + pointsProgram.getDescription() + "', '" + pointsProgram.getPointXValue() + "', '" + pointsProgram.getTotalPoints() + "', '" + t.getId() + "')";
                 DBMSController.insertQuery(query);
             } else if (findById(id) instanceof LevellingProgram levellingProgram) {
-                String query = "INSERT INT ownerlevellingprogram (id_olp, name_olp, description_olp, maxlvl_olp, totpoints_olp, valorexpercentualelivello_olp, ownerid_o ) VALUES('" + levellingProgram.getId() + "','" + levellingProgram.getName() + "','" + levellingProgram.getDescription() + "', '" + levellingProgram.getMaxLevel() + "', '" + levellingProgram.getTotalPoints() + "', '" + levellingProgram.getLvlPercentage() + "', '" + t.getId() + "')";
+                String query = "INSERT INT ownerlevellingprogram (id_olp, name_olp, description_olp, maxlvl_olp, totpoints_olp, lvlpercentage_olp, ownerid_o ) VALUES('" + levellingProgram.getId() + "','" + levellingProgram.getName() + "','" + levellingProgram.getDescription() + "', '" + levellingProgram.getMaxLevel() + "', '" + levellingProgram.getTotalPoints() + "', '" + levellingProgram.getLvlPercentage() + "', '" + t.getId() + "')";
                 DBMSController.insertQuery(query);
             }
         }else  throw new DateMistake();
