@@ -9,13 +9,13 @@ import java.util.List;
 
 public class RegisterController {
 
-    private List<Customer> customers;
+    private final List<Customer> customers;
 
-    private List<BranchManager> branchOwners;
+    private final List<BranchManager> branchOwners;
 
-    private List<Cashier> cashierList;
+    private final List<Cashier> cashierList;
 
-    private PaymentSystem paymentSystem;
+    private final PaymentSystem paymentSystem;
 
     public RegisterController() {
         this.customers = new ArrayList<>();
@@ -108,10 +108,7 @@ public class RegisterController {
      * @return True if the data is valid, false otherwise.
      */
     private boolean isDataValid(User user) {
-        if (user.getName() == null || user.getEmail() == null || user.getUsername() == null || user.getPassword() == null) {
-            return false;
-        }
-        return true;
+        return user.getName() != null && user.getEmail() != null && user.getUsername() != null && user.getPassword() != null;
     }
 
     /**
@@ -124,7 +121,9 @@ public class RegisterController {
     public List<BranchManager> getAllRetailers() throws SQLException, DateMistake {
         String retailer = "retailers";
         ResultSet resultset = DBMSController.selectAllFromTable(retailer);
-        while (resultset.next()) {
+        while (true) {
+            assert resultset != null;
+            if (!resultset.next()) break;
             PaymentController conn = new PaymentController();
             conn.viewCreditCard();
             CreditCard daAggiungere = conn.getByID(resultset.getInt("id_cc"));
@@ -212,7 +211,9 @@ public class RegisterController {
     public List<Cashier> viewCashiers() throws SQLException, DateMistake {
         String table="cashiers";
         ResultSet resultSet= DBMSController.selectAllFromTable(table);
-        while (resultSet.next()){
+        while (true){
+            assert resultSet != null;
+            if (!resultSet.next()) break;
             BranchController conn= new BranchController();
             getAllRetailers();
             conn.viewBranch();
