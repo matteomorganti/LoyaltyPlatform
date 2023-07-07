@@ -82,7 +82,7 @@ public class User {
     /**
      * Returns the name of the user.
      *
-     * @return the user name
+     * @return the username
      */
     public String getName() {
         return name;

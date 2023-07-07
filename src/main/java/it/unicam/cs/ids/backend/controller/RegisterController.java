@@ -54,12 +54,12 @@ public class RegisterController {
     /**
      * Registers a new branch owner.
      *
-     * @param o The branch owner to register.
+     * @param owner The branch owner to register.
      * @throws SQLException If an SQL exception occurs.
      */
-    public void ownerRegistration(BranchManager o) throws SQLException {
-        if (isDataValid(o)) {
-            String query = "INSERT INTO owners (id_o, name_o, surname_o, address_o, email_o, username_o, password, enabled, phonenumber_o) VALUES('" + o.getId() + "','" + o.getName() + "','" + o.getSurname() + "','" + o.getAddress() + "','" + o.getEmail() + "','" + o.getUsername() + "' ,'" + o.getPassword() + "' ,'" + o.isActive() + "', '" + o.getTelephone() + "' )";
+    public void ownerRegistration(BranchManager owner) throws SQLException {
+        if (isDataValid(owner)) {
+            String query = "INSERT INTO owners (id_o, name_o, surname_o, address_o, email_o, username_o, password, enabled, phonenumber_o) VALUES('" + owner.getId() + "','" + owner.getName() + "','" + owner.getSurname() + "','" + owner.getAddress() + "','" + owner.getEmail() + "','" + owner.getUsername() + "' ,'" + owner.getPassword() + "' ,'" + owner.isActive() + "', '" + owner.getTelephone() + "' )";
             DBMSController.insertQuery(query);
         }
     }
@@ -91,9 +91,9 @@ public class RegisterController {
      */
     public BranchManager findById(int id) throws SQLException, DateMistake {
         BranchManager owner = null;
-        for (BranchManager t : getAllRetailers()) {
-            if (t.getId() == id)
-                owner = t;
+        for (BranchManager manager : getAllRetailers()) {
+            if (manager.getId() == id)
+                owner = manager;
         }
         if (owner == null) {
             throw new NullPointerException();
@@ -126,14 +126,14 @@ public class RegisterController {
             if (!resultset.next()) break;
             PaymentController conn = new PaymentController();
             conn.viewCreditCard();
-            CreditCard daAggiungere = conn.getByID(resultset.getInt("id_cc"));
-            BranchManager titolare = new BranchManager(resultset.getInt("id_o"),
+            CreditCard card = conn.getByID(resultset.getInt("id_cc"));
+            BranchManager owner = new BranchManager(resultset.getInt("id_o"),
                     resultset.getString("name_o"), resultset.getString("surname_t"),
                     resultset.getString("address_o"), resultset.getString("email_o"),
                     resultset.getString("username_o"), resultset.getString("password"),
                     resultset.getInt("phonenumber_o"), resultset.getBoolean("enabled"),
-                    daAggiungere);
-            this.branchOwners.add(titolare);
+                    card);
+            this.branchOwners.add(owner);
         }
         return branchOwners;
     }
@@ -162,11 +162,11 @@ public class RegisterController {
         String table="customers";
         ResultSet resultSet= DBMSController.selectAllFromTable(table);
         while (resultSet.next()){
-            Customer c= new Customer(resultSet.getInt("id_c"), resultSet.getString("name_c"),resultSet.getString("surname_c"),
+            Customer customer= new Customer(resultSet.getInt("id_c"), resultSet.getString("name_c"),resultSet.getString("surname_c"),
                     resultSet.getString("address_c"),resultSet.getString("email_c"),
                     resultSet.getString("username_c"), resultSet.getString("password_c"),
                     resultSet.getInt("phonenumber_c"));
-            this.customers.add(c);
+            this.customers.add(customer);
         }
         return customers;
     }
@@ -180,9 +180,9 @@ public class RegisterController {
      */
     public Customer getByID(int id) throws SQLException {
         viewCustomers();
-        for(Customer c: this.customers){
-            if(id==c.getId())
-                return c;
+        for(Customer customer: this.customers){
+            if(id==customer.getId())
+                return customer;
         }
         return null;
     }
@@ -218,11 +218,11 @@ public class RegisterController {
             getAllRetailers();
             conn.viewBranch();
             Branch bAdd= conn.findById(resultSet.getString("branchname_b"));
-            Cashier bc= new Cashier(resultSet.getInt("id_cs"), resultSet.getString("name_cs"),resultSet.getString("cognome_cp"),
+            Cashier cashier= new Cashier(resultSet.getInt("id_cs"), resultSet.getString("name_cs"),resultSet.getString("cognome_cp"),
                     resultSet.getString("address_cs"),resultSet.getString("email_cs"),
                     resultSet.getString("username_cs"), resultSet.getString("password"),
                     resultSet.getInt("phonenumber_cs"), bAdd);
-            this.cashierList.add(bc);
+            this.cashierList.add(cashier);
         }
         return this.cashierList;
     }
@@ -237,9 +237,9 @@ public class RegisterController {
      */
     public Cashier getById(int id) throws SQLException, DateMistake {
         viewCashiers();
-        for(Cashier cs: this.cashierList){
-            if(id==cs.getId())
-                return cs;
+        for(Cashier cashier: this.cashierList){
+            if(id==cashier.getId())
+                return cashier;
         }
         return null;
     }
@@ -247,12 +247,12 @@ public class RegisterController {
     /**
      * Updates the credit card information for a branch owner.
      *
-     * @param o The branch owner to update.
-     * @param cc    The credit card to set.
+     * @param owner The branch owner to update.
+     * @param card    The credit card to set.
      * @throws SQLException If an SQL exception occurs.
      */
-    public void cardUpdate(BranchManager o, CreditCard cc) throws SQLException {
-        String query="UPDATE owners SET ccid_cc = '" + cc.getCardNumber() + "' WHERE id_o = '" + o.getId() + "'";
+    public void cardUpdate(BranchManager owner, CreditCard card) throws SQLException {
+        String query="UPDATE owners SET ccid_cc = '" + card.getCardNumber() + "' WHERE id_o = '" + owner.getId() + "'";
         DBMSController.insertQuery(query);
     }
 

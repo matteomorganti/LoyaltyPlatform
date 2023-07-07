@@ -24,13 +24,13 @@ public class CardController {
     /**
      * Adds a fidelity card to the system.
      *
-     * @param c the fidelity card to be added
+     * @param card the fidelity card to be added
      * @throws DateMistake if the card already exists
      * @throws SQLException if a database error occurs
      */
-    public void addCard(FidelityCard c) throws DateMistake, SQLException {
-        if(findById(c.getId())==null){
-            String query= "INSERT INTO fidelitycard (id_fc, name_fc, expiration_fc, currpoints, currlevel, percentlevel, branch_b, clientid_c ) VALUES('" + c.getId() + "', '" + c.getCardName() + "', '" +c.getExpiration() + "', '" + c.getCurrPoints() + "', '" + c.getCurrLevel() + "', '" + c.getPercentLevel() + "', '" + c.getBranchCard().getBranchName() + "', '" + c.getCustomer().getId() + "')";
+    public void addCard(FidelityCard card) throws DateMistake, SQLException {
+        if(findById(card.getId())==null){
+            String query= "INSERT INTO fidelitycard (id_fc, name_fc, expiration_fc, currpoints, currlevel, percentlevel, branch_b, clientid_c ) VALUES('" + card.getId() + "', '" + card.getCardName() + "', '" +card.getExpiration() + "', '" + card.getCurrPoints() + "', '" + card.getCurrLevel() + "', '" + card.getPercentLevel() + "', '" + card.getBranchCard().getBranchName() + "', '" + card.getCustomer().getId() + "')";
             DBMSController.insertQuery(query);
         }
         else throw new DateMistake("The card already exists!");
@@ -44,9 +44,9 @@ public class CardController {
      */
     public FidelityCard findById(int id) {
         FidelityCard fidelityCard =null;
-        for (FidelityCard p: this.fidelityCardList){
-            if(p.getId()==id)
-                fidelityCard =p;
+        for (FidelityCard card: this.fidelityCardList){
+            if(card.getId()==id)
+                fidelityCard =card;
         }
         if(fidelityCard ==null){
             return null;
@@ -57,15 +57,15 @@ public class CardController {
     /**
      * Retrieves and displays all fidelity cards of a customer.
      *
-     * @param c the customer whose cards are to be displayed
+     * @param customer the customer whose cards are to be displayed
      * @throws SQLException if a database error occurs
      * @throws DateMistake if a date mistake occurs
      */
-    public void viewFidelityCard(Customer c) throws SQLException, DateMistake {
+    public void viewFidelityCard(Customer customer) throws SQLException, DateMistake {
         String table="fidelitycard";
         ResultSet resultSet= DBMSController.selectAllFromTable(table);
         while (resultSet.next()){
-            if(c.getId()== resultSet.getInt("clientid_c")){
+            if(customer.getId()== resultSet.getInt("clientid_c")){
                 RegisterController cr= new RegisterController();
                 cr.viewCustomers();
                 BranchController cp= new BranchController();
@@ -89,13 +89,13 @@ public class CardController {
     @Override
     public String toString() {
         String string ="";
-        for (FidelityCard cf : fidelityCardList){
-            string+= "id: ["+ cf.getId()+"] \n" +
-                    "expiration: ["+ cf.getExpiration()+"] \n" +
-                    "customer: ["+ cf.getCustomer().getUsername()+"] \n" +
-                    "branch: ["+cf.getBranchCard()+"]\n" +
-                    "currentPoints: ["+cf.getCurrPoints()+"]\n" +
-                    "currentLevel: ["+cf.getCurrLevel()+"]\n" +
+        for (FidelityCard card : fidelityCardList){
+            string+= "id: ["+ card.getId()+"] \n" +
+                    "expiration: ["+ card.getExpiration()+"] \n" +
+                    "customer: ["+ card.getCustomer().getUsername()+"] \n" +
+                    "branch: ["+card.getBranchCard()+"]\n" +
+                    "currentPoints: ["+card.getCurrPoints()+"]\n" +
+                    "currentLevel: ["+card.getCurrLevel()+"]\n" +
                     "-------------------------------------------------\n";
         }
         return string;

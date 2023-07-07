@@ -70,8 +70,8 @@ public class BranchController {
         String table = "programpointowner";
         ResultSet resultSet = DBMSController.selectAllFromTable(table);
         while (resultSet.next()) {
-            int id_titolare = resultSet.getInt("ownerid_o");
-            if (id_titolare == branch.getOwner().getId()) {
+            int ownerid_o = resultSet.getInt("ownerid_o");
+            if (ownerid_o == branch.getOwner().getId()) {
                 FidelityProgram pp = new PointsProgram(resultSet.getInt("id_opp"), resultSet.getString("nome_ppt"),
                         resultSet.getString("description_opp"),
                         resultSet.getInt("pointsvalue_opp"), resultSet.getInt("totpoints_opp"));
@@ -109,32 +109,32 @@ public class BranchController {
     /**
      * Adds a new branch to the system.
      *
-     * @param pv The branch to add.
+     * @param branch The branch to add.
      * @throws DateMistake if the branch already exists.
      * @throws SQLException if a database access error occurs.
      * @throws DateMistake   if the branch already exists.
      */
-    public void addBranch(Branch pv) throws DateMistake, SQLException {
-        for (Branch p : this.branches) {
-            if (findById(pv.getBranchName()).equals(p.getBranchName())) {
+    public void addBranch(Branch branch) throws DateMistake, SQLException {
+        for (Branch branch1 : this.branches) {
+            if (findById(branch.getBranchName()).equals(branch1.getBranchName())) {
                 throw new DateMistake("Branche already exists");
             }
         }
-        String query = "INSERT INTO branches (name_b, address_b,owner_o ) VALUES('" + pv.getBranchName() + "','" + pv.getAddress() + "','" + pv.getOwner().getId() + "')";
+        String query = "INSERT INTO branches (name_b, address_b,owner_o ) VALUES('" + branch.getBranchName() + "','" + branch.getAddress() + "','" + branch.getOwner().getId() + "')";
         DBMSController.insertQuery(query);
     }
 
     /**
      * Finds a branch by its name.
      *
-     * @param nome The name of the branch to find.
+     * @param name The name of the branch to find.
      * @return The found branch.
      */
-    public Branch findById(String nome) {
+    public Branch findById(String name) {
         Branch branch = null;
-        for (Branch pv : this.branches) {
-            if (pv.getBranchName().equals(nome))
-                branch = pv;
+        for (Branch branch1 : this.branches) {
+            if (branch1.getBranchName().equals(name))
+                branch = branch1;
         }
         if (branch == null) {
             throw new NullPointerException();
@@ -154,9 +154,9 @@ public class BranchController {
         ResultSet resultSet = DBMSController.selectAllFromTable(table);
         while (resultSet.next()) {
             RegisterController conn = new RegisterController();
-            BranchManager titolareDaAggiungere = conn.findById(resultSet.getInt("ownerid_o"));
+            BranchManager owner = conn.findById(resultSet.getInt("ownerid_o"));
             Branch branch = new Branch(resultSet.getString("name_b"),
-                    resultSet.getString("address_o"), titolareDaAggiungere);
+                    resultSet.getString("address_o"), owner);
             this.branches.add(branch);
         }
         return this.branches;
@@ -166,20 +166,20 @@ public class BranchController {
      * Adds loyalty points to a fidelity card based on the number of bought items.
      *
      * @param boughtItems The number of items bought.
-     * @param pp          The loyalty program.
-     * @param cf          The fidelity card.
+     * @param pointsProgram          The loyalty program.
+     * @param fidelityCard          The fidelity card.
      * @param coupon      The coupon.
      * @return The updated number of earned points.
      * @throws SQLException if a database access error occurs.
      */
-    public int addPointsCard(int boughtItems, PointsProgram pp, FidelityCard cf, Coupon coupon) throws SQLException {
-        int earnedPoints = cf.getCurrPoints() + (boughtItems / pp.getPointXValue());
-        String query = "UPDATE fidelitycard SET currentpoints ='" + earnedPoints + "'WHERE id_cf= '" + cf.getId() + "'";
-        if (earnedPoints >= pp.getTotalPoints()) {
+    public int addPointsCard(int boughtItems, PointsProgram pointsProgram, FidelityCard fidelityCard, Coupon coupon) throws SQLException {
+        int earnedPoints = fidelityCard.getCurrPoints() + (boughtItems / pointsProgram.getPointValue());
+        String query = "UPDATE fidelitycard SET currentpoints ='" + earnedPoints + "'WHERE id_cf= '" + fidelityCard.getId() + "'";
+        if (earnedPoints >= pointsProgram.getTotalPoints()) {
             //sblocca coupon da ritirare
-            String query1 = "UPDATE coupon SET clientiid_c ='" + cf.getCustomer().getId() + "'WHERE id_coupon= '" + coupon.getIdCoupon() + "'";
+            String query1 = "UPDATE coupon SET clientiid_c ='" + fidelityCard.getCustomer().getId() + "'WHERE id_coupon= '" + coupon.getIdCoupon() + "'";
             int pointsDetraction = earnedPoints - coupon.getPointCost();
-            query = "UPDATE fidelitycard SET currentpoints ='" + pointsDetraction + "'WHERE id_cf= '" + cf.getId() + "'";
+            query = "UPDATE fidelitycard SET currentpoints ='" + pointsDetraction + "'WHERE id_cf= '" + fidelityCard.getId() + "'";
             DBMSController.insertQuery(query1);
         }
         DBMSController.insertQuery(query);
@@ -190,21 +190,21 @@ public class BranchController {
      * Increases the loyalty card level based on the number of bought items.
      *
      * @param boughtItems The number of items bought.
-     * @param pl          The leveling program.
-     * @param cf          The fidelity card.
+     * @param levellingProgram          The leveling program.
+     * @param fidelityCard          The fidelity card.
      * @return The updated level percentage.
      * @throws SQLException if a database access error occurs.
      */
-    public int cardLvlUp(int boughtItems, LevellingProgram pl, FidelityCard cf) throws SQLException {
-        int lvlPercentage = cf.getPercentLevel() + (boughtItems / pl.getLvlPercentage());
-        if (lvlPercentage >= pl.getTotalPoints() && (cf.getCurrLevel() < pl.getMaxLevel())) {
-            int subtraction = lvlPercentage - pl.getTotalPoints();
-            int lvlup = cf.getCurrLevel() + 1;
-            String query = "UPDATE fidelitycard SET currentlvl ='" + lvlup + "', lvlpercentage= '" + subtraction + "'WHERE id_fc= '" + cf.getId() + "'";
+    public int cardLvlUp(int boughtItems, LevellingProgram levellingProgram, FidelityCard fidelityCard) throws SQLException {
+        int lvlPercentage = fidelityCard.getPercentLevel() + (boughtItems / levellingProgram.getLvlPercentage());
+        if (lvlPercentage >= levellingProgram.getTotalPoints() && (fidelityCard.getCurrLevel() < levellingProgram.getMaxLevel())) {
+            int subtraction = lvlPercentage - levellingProgram.getTotalPoints();
+            int lvlup = fidelityCard.getCurrLevel() + 1;
+            String query = "UPDATE fidelitycard SET currentlvl ='" + lvlup + "', lvlpercentage= '" + subtraction + "'WHERE id_fc= '" + fidelityCard.getId() + "'";
             DBMSController.insertQuery(query);
 
         }
-        String query = "UPDATE fidelitycard SET lvlpercecntage= '" + lvlPercentage + "'WHERE id_fc= '" + cf.getId() + "'";
+        String query = "UPDATE fidelitycard SET lvlpercecntage= '" + lvlPercentage + "'WHERE id_fc= '" + fidelityCard.getId() + "'";
         DBMSController.insertQuery(query);
         return lvlPercentage;
     }
@@ -220,13 +220,13 @@ public class BranchController {
         if (getById(id) == null) {
             throw new NullPointerException("Fidelity program doesn't exist!");
         }
-        for (FidelityProgram p : this.fidelityPrograms) {
-            if (id == p.getId())
-                this.fidelityPrograms.remove(p);
+        for (FidelityProgram program : this.fidelityPrograms) {
+            if (id == program.getId())
+                this.fidelityPrograms.remove(program);
             String query = "";
-            if (p instanceof PointsProgram pp) {
+            if (program instanceof PointsProgram pp) {
                 query = "DELETE FROM ownerpointsprogram WHERE nome_opp='" + pp.getName() + "'";
-            } else if (p instanceof LevellingProgram pl) {
+            } else if (program instanceof LevellingProgram pl) {
                 query = "DELETE FROM ownerlevellingprogram WHERE name_olp='" + pl.getName() + "';";
             }
             DBMSController.removeQuery(query);
@@ -242,9 +242,9 @@ public class BranchController {
      */
     public FidelityProgram getById(int id) {
         FidelityProgram programFel = null;
-        for (FidelityProgram p : this.fidelityPrograms) {
-            if (p.getId() == id)
-                programFel = p;
+        for (FidelityProgram program : this.fidelityPrograms) {
+            if (program.getId() == id)
+                programFel = program;
         }
         if (programFel == null) {
             throw new NullPointerException();
@@ -259,10 +259,10 @@ public class BranchController {
      */
     public String fidelityProgramtoString() {
         StringBuilder string = new StringBuilder();
-        for (FidelityProgram pf : fidelityPrograms) {
-            string.append("id: [").append(pf.getId()).append("] \n")
-                    .append("name: [").append(pf.getName()).append("] \n")
-                    .append("description: [").append(pf.getDescription()).append("]\n")
+        for (FidelityProgram program : fidelityPrograms) {
+            string.append("id: [").append(program.getId()).append("] \n")
+                    .append("name: [").append(program.getName()).append("] \n")
+                    .append("description: [").append(program.getDescription()).append("]\n")
                     .append("------------------------------------\n");
         }
         return string.toString();
@@ -275,10 +275,10 @@ public class BranchController {
      */
     public String branchestoString() {
         StringBuilder string = new StringBuilder();
-        for (Branch pv : branches) {
-            string.append("id: [").append(pv.getBranchName()).append("] \n")
-                    .append("name: [").append(pv.getAddress()).append("] \n")
-                    .append("description").append(pv.getOwner()).append("]\n")
+        for (Branch branch : branches) {
+            string.append("id: [").append(branch.getBranchName()).append("] \n")
+                    .append("name: [").append(branch.getAddress()).append("] \n")
+                    .append("description").append(branch.getOwner()).append("]\n")
                     .append("------------------------------------\n");
         }
         return string.toString();

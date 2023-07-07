@@ -5,7 +5,7 @@ package it.unicam.cs.ids.backend.model;
  */
 public class PointsProgram extends FidelityProgram {
 
-    private int pointXValue;
+    private int pointValue;
     private int totalPoints;
 
     /**
@@ -14,12 +14,12 @@ public class PointsProgram extends FidelityProgram {
      * @param id          the ID of the program
      * @param name        the name of the program
      * @param description the description of the program
-     * @param pointXValue the value of one point in the program
+     * @param pointValue the value of one point in the program
      * @param totalPoints the total number of points in the program
      */
-    public PointsProgram(int id, String name, String description, int pointXValue, int totalPoints) {
+    public PointsProgram(int id, String name, String description, int pointValue, int totalPoints) {
         super(id, name, description);
-        this.pointXValue = pointXValue;
+        this.pointValue = pointValue;
         this.totalPoints = totalPoints;
     }
 
@@ -31,7 +31,7 @@ public class PointsProgram extends FidelityProgram {
      */
     public PointsProgram(String name, String description) {
         super(name, description);
-        this.pointXValue = 0;
+        this.pointValue = 0;
         this.totalPoints = 0;
     }
 
@@ -43,7 +43,7 @@ public class PointsProgram extends FidelityProgram {
      */
     public PointsProgram(String name, int id) {
         super(name, id);
-        this.pointXValue = 0;
+        this.pointValue = 0;
         this.totalPoints = 0;
     }
 
@@ -52,8 +52,8 @@ public class PointsProgram extends FidelityProgram {
      *
      * @return the value of one point
      */
-    public int getPointXValue() {
-        return pointXValue;
+    public int getPointValue() {
+        return pointValue;
     }
 
     /**
@@ -68,10 +68,10 @@ public class PointsProgram extends FidelityProgram {
     /**
      * Sets the value of one point in the program.
      *
-     * @param pointXValue the value of one point
+     * @param pointValue the value of one point
      */
-    public void setPointXValue(int pointXValue) {
-        this.pointXValue = pointXValue;
+    public void setPointValue(int pointValue) {
+        this.pointValue = pointValue;
     }
 
     /**

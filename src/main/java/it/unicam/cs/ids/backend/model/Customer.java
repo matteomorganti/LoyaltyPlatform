@@ -60,17 +60,17 @@ public class Customer extends User {
     /**
      * Creates a new fidelity card for the customer.
      *
-     * @param cf The fidelity card to be created.
+     * @param card The fidelity card to be created.
      * @throws DateMistake if attempting to create multiple cards in the same branch.
      * @throws SQLException if an error occurs while adding the card to the database.
      */
-    public void createCard(FidelityCard cf) throws DateMistake, SQLException {
-        for (FidelityCard c : this.fidelityCards) {
-            if (c.getBranchCard() == cf.getBranchCard()) {
+    public void createCard(FidelityCard card) throws DateMistake, SQLException {
+        for (FidelityCard fidelityCard : this.fidelityCards) {
+            if (fidelityCard.getBranchCard() == fidelityCard.getBranchCard()) {
                 throw new DateMistake("You can't create 2 cards in the same branch!");
             }
         }
-        this.cardController.addCard(cf);
-        this.fidelityCards.add(cf);
+        this.cardController.addCard(card);
+        this.fidelityCards.add(card);
     }
 }

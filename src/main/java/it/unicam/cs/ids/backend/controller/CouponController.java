@@ -27,23 +27,23 @@ public class CouponController {
     /**
      * Adds a coupon to the database.
      *
-     * @param c the coupon to be added
+     * @param coupon the coupon to be added
      * @throws SQLException if an SQL exception occurs
      */
-    public void addCoupon(Coupon c) throws SQLException {
-        String query = "INSERT INTO coupon (id_opp, id_coupon, coupon_name, pointcost) VALUES('" + c.getPointsProgram().getId() + "','" + c.getIdCoupon() + "','" + c.getCouponName() + "', '" + c.getPointCost() + "')";
+    public void addCoupon(Coupon coupon) throws SQLException {
+        String query = "INSERT INTO coupon (id_opp, id_coupon, coupon_name, pointcost) VALUES('" + coupon.getPointsProgram().getId() + "','" + coupon.getIdCoupon() + "','" + coupon.getCouponName() + "', '" + coupon.getPointCost() + "')";
         DBMSController.insertQuery(query);
     }
 
     /**
      * Retrieves and returns the list of coupons associated with a branch.
      *
-     * @param pv the branch to view coupons for
+     * @param branch the branch to view coupons for
      * @return the list of coupons associated with the branch
      * @throws SQLException    if an SQL exception occurs
      * @throws DateMistake     if a date mistake occurs
      */
-    public List<Coupon> viewCoupon(Branch pv) throws SQLException, DateMistake {
+    public List<Coupon> viewCoupon(Branch branch) throws SQLException, DateMistake {
         String table="coupon";
         ResultSet resultSet= DBMSController.selectAllFromTable(table);
         while (resultSet.next()){
@@ -51,8 +51,8 @@ public class CouponController {
             BranchController cp= new BranchController();
             cr.viewCustomers();
             Customer customer =cr.getByID(resultSet.getInt("clientiid_c"));
-            cp.viewProgramPointOwner(pv);
-            cp.viewLvlProgramOwner(pv);
+            cp.viewProgramPointOwner(branch);
+            cp.viewLvlProgramOwner(branch);
             FidelityProgram pf=cp.getById(resultSet.getInt("programpointownerid_ppt"));
             if(pf instanceof PointsProgram pp) {
                 Coupon cc = new Coupon(resultSet.getInt("id_coupon"), resultSet.getString("coupon_name"),

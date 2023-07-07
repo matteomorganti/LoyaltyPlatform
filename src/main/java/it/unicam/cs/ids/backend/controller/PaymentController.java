@@ -25,15 +25,15 @@ public class PaymentController {
     }
 
     /**
-     * Processes a payment for the given branch manager.
+     * Processes a payment for the given branch owner.
      *
-     * @param t the branch manager for whom the payment is being processed
+     * @param owner the branch owner for whom the payment is being processed
      * @return true if the payment is successful, false otherwise
      * @throws SQLException if there is an error in the SQL query
      */
-    public boolean payment(BranchManager t) throws SQLException {
-        if (t.getCard().getCardBalance() > PlatformManager.getPlatformMembershipCost()) {
-            t.getCard().decreaseBalance(PlatformManager.getPlatformMembershipCost());
+    public boolean payment(BranchManager owner) throws SQLException {
+        if (owner.getCard().getCardBalance() > PlatformManager.getPlatformMembershipCost()) {
+            owner.getCard().decreaseBalance(PlatformManager.getPlatformMembershipCost());
             return true;
         }
         return false;
@@ -42,13 +42,13 @@ public class PaymentController {
     /**
      * Adds a credit card to the database.
      *
-     * @param cc the credit card to be added
+     * @param card the credit card to be added
      * @throws SQLException if there is an error in the SQL query
      */
-    public void addCard(CreditCard cc) throws SQLException {
+    public void addCard(CreditCard card) throws SQLException {
         String query = "INSERT INTO creditcard (id_cc, expirationdate, cvv, pin, balance) VALUES('"
-                + cc.getCardNumber() + "','" + cc.getExpirationDate() + "','" + cc.getCvv() + "','"
-                + cc.getPin() + "','" + cc.getCardBalance() + "')";
+                + card.getCardNumber() + "','" + card.getExpirationDate() + "','" + card.getCvv() + "','"
+                + card.getPin() + "','" + card.getCardBalance() + "')";
         DBMSController.insertQuery(query);
     }
 
@@ -62,10 +62,10 @@ public class PaymentController {
         String table = "creditcard";
         ResultSet resultSet = DBMSController.selectAllFromTable(table);
         while (resultSet.next()) {
-            CreditCard cc = new CreditCard(resultSet.getInt("id_cc"), resultSet.getDate("expirationdate"),
+            CreditCard card = new CreditCard(resultSet.getInt("id_cc"), resultSet.getDate("expirationdate"),
                     resultSet.getString("cvv"), resultSet.getString("pin"),
                     resultSet.getDouble("balance"));
-            this.creditCardList.add(cc);
+            this.creditCardList.add(card);
         }
     }
 
@@ -77,9 +77,9 @@ public class PaymentController {
      */
     public CreditCard getByID(int id) {
         CreditCard creditCard = null;
-        for (CreditCard cc : creditCardList) {
-            if (cc.getCardNumber() == id)
-                creditCard = cc;
+        for (CreditCard card : creditCardList) {
+            if (card.getCardNumber() == id)
+                creditCard = card;
         }
         return creditCard;
     }

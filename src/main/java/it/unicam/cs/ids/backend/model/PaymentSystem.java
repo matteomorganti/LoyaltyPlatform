@@ -31,12 +31,12 @@ public class PaymentSystem {
     /**
      * Verifies the payment for the specified branch manager.
      *
-     * @param t the branch manager to verify the payment for
+     * @param owner the branch manager to verify the payment for
      * @return the resulting payment state after verification
      * @throws SQLException if an SQL exception occurs during the payment verification process
      */
-    public TransactionState verifyPayment(BranchManager t) throws SQLException {
-        if (paymentState.payment(t)) {
+    public TransactionState verifyPayment(BranchManager owner) throws SQLException {
+        if (paymentState.payment(owner)) {
             payment = TransactionState.PAID;
         } else {
             payment = TransactionState.WAITING;

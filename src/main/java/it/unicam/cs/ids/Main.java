@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static final Scanner sc = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
     private static final FidelityController FIDELITY_CONTROLLER = new FidelityController();
     private static final RegisterController REGISTER_CONTROLLER = new RegisterController();
     private static final CardController CARD_CONTROLLER = new CardController();
@@ -42,19 +42,19 @@ public class Main {
         boolean flag = false;
         do {
             ConsoleLog.log("Name:");
-            String name = sc.nextLine();
+            String name = SCANNER.nextLine();
             ConsoleLog.log("Surname:");
-            String surname = sc.nextLine();
+            String surname = SCANNER.nextLine();
             ConsoleLog.log("Address");
-            String address = sc.nextLine();
+            String address = SCANNER.nextLine();
             ConsoleLog.log("Business mail:");
-            String email = sc.nextLine();
+            String email = SCANNER.nextLine();
             ConsoleLog.log("Username: ");
-            String username = sc.nextLine();
+            String username = SCANNER.nextLine();
             ConsoleLog.log("Password:");
-            String password = sc.nextLine();
+            String password = SCANNER.nextLine();
             ConsoleLog.log("Phone Number:");
-            long telephone = sc.nextLong();
+            long telephone = SCANNER.nextLong();
 
             ConsoleLog.log("Select a role: /n");
             ConsoleLog.log("1-Customer");
@@ -70,9 +70,9 @@ public class Main {
                 }
                 case 2 -> {
                     ConsoleLog.log("Enter your branch name:");
-                    String branchName = sc.nextLine();
+                    String branchName = SCANNER.nextLine();
                     ConsoleLog.log("Enter your branch address:");
-                    String branchAddress = sc.nextLine();
+                    String branchAddress = SCANNER.nextLine();
                     BranchManager owner = new BranchManager(name, surname, address, email, username, password, telephone);
                     REGISTER_CONTROLLER.ownerRegistration(owner);
                     Branch b = new Branch(branchName, branchAddress, owner);
@@ -83,11 +83,11 @@ public class Main {
 
                 case 3 -> {
                     ConsoleLog.log("Enter your branch name:");
-                    String branchName = sc.nextLine();
+                    String branchName = SCANNER.nextLine();
                     REGISTER_CONTROLLER.getAllRetailers();
                     BRANCH_CONTROLLER.viewBranch();
-                    Branch b = BRANCH_CONTROLLER.findById(branchName);
-                    Cashier cashier = new Cashier(name, surname, address, email, username, password, telephone, b);
+                    Branch branch = BRANCH_CONTROLLER.findById(branchName);
+                    Cashier cashier = new Cashier(name, surname, address, email, username, password, telephone, branch);
                     REGISTER_CONTROLLER.branchCashierRegistration(cashier);
                     ConsoleLog.log("Excellent, your sign up ended successfully!" +
                             ", your ID is: " + cashier.getId() + " ");
@@ -140,9 +140,9 @@ public class Main {
         Cashier currentCashier = null;
         do {
             ConsoleLog.log("Username: ");
-            String username = sc.nextLine();
+            String username = SCANNER.nextLine();
             ConsoleLog.log("Password: ");
-            String password = sc.nextLine();
+            String password = SCANNER.nextLine();
             boolean locale = false;
             for (Cashier cb : REGISTER_CONTROLLER.viewCashiers()) {
                 if (cb.getUsername().equals(username) && cb.getPassword().equals(password)) {
@@ -182,58 +182,58 @@ public class Main {
 
     private static void createCardForCustomer(Cashier currentCashier) throws DateMistake, SQLException {
         ConsoleLog.log("Card name:");
-        String cardName = sc.nextLine();
+        String cardName = SCANNER.nextLine();
         ConsoleLog.log("Expiration date:");
-        long cardExpiration = sc.nextLong();
-        sc.nextLine(); // Consume the newline character after reading the long
+        long cardExpiration = SCANNER.nextLong();
+        SCANNER.nextLine(); // Consume the newline character after reading the long
         ConsoleLog.log(REGISTER_CONTROLLER.toStringCustomers());
         ConsoleLog.log("Customer ID:");
-        int clientId = sc.nextInt();
-        sc.nextLine(); // Consume the newline character after reading the int
+        int clientId = SCANNER.nextInt();
+        SCANNER.nextLine(); // Consume the newline character after reading the int
         Date fcExpiration = new Date(cardExpiration);
-        FidelityCard cf = new FidelityCard(cardName, fcExpiration, currentCashier.getBranch(), REGISTER_CONTROLLER.getByID(clientId));
-        CARD_CONTROLLER.addCard(cf);
+        FidelityCard card = new FidelityCard(cardName, fcExpiration, currentCashier.getBranch(), REGISTER_CONTROLLER.getByID(clientId));
+        CARD_CONTROLLER.addCard(card);
         ConsoleLog.log("Customer: " + clientId + " card has been created!");
     }
 
     private static void addPointsToCustomer(Cashier currentCashier) throws SQLException, DateMistake {
         ConsoleLog.log(REGISTER_CONTROLLER.toStringCustomers());
         ConsoleLog.log("Client ID:");
-        int clientId = sc.nextInt();
-        sc.nextLine(); // Consume the newline character after reading the int
+        int clientId = SCANNER.nextInt();
+        SCANNER.nextLine(); // Consume the newline character after reading the int
         CARD_CONTROLLER.viewFidelityCard(REGISTER_CONTROLLER.getByID(clientId));
         ConsoleLog.log(CARD_CONTROLLER.toString());
         ConsoleLog.log("Card ID");
-        int cardId = sc.nextInt();
-        sc.nextLine(); // Consume the newline character after reading the int
+        int cardId = SCANNER.nextInt();
+        SCANNER.nextLine(); // Consume the newline character after reading the int
         BRANCH_CONTROLLER.viewProgramPointOwner(currentCashier.getBranch());
         BRANCH_CONTROLLER.viewLvlProgramOwner(currentCashier.getBranch());
         ConsoleLog.log(BRANCH_CONTROLLER.toString());
         ConsoleLog.log("Insert program ID:");
-        int idPf = sc.nextInt();
-        sc.nextLine(); // Consume the newline character after reading the int
+        int programID = SCANNER.nextInt();
+        SCANNER.nextLine(); // Consume the newline character after reading the int
         ConsoleLog.log("Insert customer bought items list:");
-        int expense = sc.nextInt();
-        sc.nextLine(); // Consume the newline character after reading the int
+        int expense = SCANNER.nextInt();
+        SCANNER.nextLine(); // Consume the newline character after reading the int
         COUPON_CONTROLLER.viewCoupon(currentCashier.getBranch());
         ConsoleLog.log(COUPON_CONTROLLER.toString());
         ConsoleLog.log("Insert coupon:");
-        int coupon = sc.nextInt();
-        sc.nextLine(); // Consume the newline character after reading the int
-        currentCashier.cardLvlUp(expense, BRANCH_CONTROLLER.getById(idPf), CARD_CONTROLLER.findById(cardId), COUPON_CONTROLLER.getByID(coupon));
+        int coupon = SCANNER.nextInt();
+        SCANNER.nextLine(); // Consume the newline character after reading the int
+        currentCashier.cardLvlUp(expense, BRANCH_CONTROLLER.getById(programID), CARD_CONTROLLER.findById(cardId), COUPON_CONTROLLER.getByID(coupon));
         ConsoleLog.log("Points have been added!");
     }
 
 
     private static BranchManager authenticateUser() throws SQLException, DateMistake {
         ConsoleLog.log("Username: ");
-        String username = sc.nextLine();
+        String username = SCANNER.nextLine();
         ConsoleLog.log("Password:");
-        String password = sc.nextLine();
+        String password = SCANNER.nextLine();
 
-        for (BranchManager own : REGISTER_CONTROLLER.getAllRetailers()) {
-            if (own.getUsername().equals(username) && own.getPassword().equals(password)) {
-                return new BranchManager(own.getId(), own.getName(), own.getSurname(), own.getAddress(), own.getEmail(), own.getUsername(), own.getPassword(), own.getTelephone(), own.isActive());
+        for (BranchManager owner : REGISTER_CONTROLLER.getAllRetailers()) {
+            if (owner.getUsername().equals(username) && owner.getPassword().equals(password)) {
+                return new BranchManager(owner.getId(), owner.getName(), owner.getSurname(), owner.getAddress(), owner.getEmail(), owner.getUsername(), owner.getPassword(), owner.getTelephone(), owner.isActive());
             }
         }
 
@@ -271,28 +271,28 @@ public class Main {
             FIDELITY_CONTROLLER.viewProgramLevels();
             ConsoleLog.log(FIDELITY_CONTROLLER.toString());
             ConsoleLog.log("Program Id:");
-            int id = sc.nextInt();
-            FidelityProgram fp = FIDELITY_CONTROLLER.findById(id);
-            if (fp instanceof PointsProgram pp) {
+            int id = SCANNER.nextInt();
+            FidelityProgram program1 = FIDELITY_CONTROLLER.findById(id);
+            if (program1 instanceof PointsProgram pp) {
                 ConsoleLog.log("Set program points: " + id);
-                int setXValuePoint = sc.nextInt();
+                int setPointValue = SCANNER.nextInt();
                 ConsoleLog.log("Set the max point value: " + id);
-                int setTotalPoints = sc.nextInt();
-                pp.setPointXValue(setXValuePoint);
+                int setTotalPoints = SCANNER.nextInt();
+                pp.setPointValue(setPointValue);
                 pp.setTotalPoints(setTotalPoints);
-            } else if (fp instanceof LevellingProgram lp) {
+            } else if (program1 instanceof LevellingProgram program) {
                 ConsoleLog.log("Edit max lvl " + id);
-                int setMaxLevel = sc.nextInt();
+                int setMaxLevel = SCANNER.nextInt();
                 ConsoleLog.log("Edit programs total points " + id);
-                int setTotalPoints = sc.nextInt();
+                int setTotalPoints = SCANNER.nextInt();
                 ConsoleLog.log("Edit lvl percentage " + id);
-                int lvlPercentage = sc.nextInt();
-                lp.setMaxLevel(setMaxLevel);
-                lp.setTotalPoints(setTotalPoints);
-                lp.setLvlPercentage(lvlPercentage);
+                int lvlPercentage = SCANNER.nextInt();
+                program.setMaxLevel(setMaxLevel);
+                program.setTotalPoints(setTotalPoints);
+                program.setLvlPercentage(lvlPercentage);
             }
-            FIDELITY_CONTROLLER.updateProgramManager(fp);
-            owner.addBranchToFidelityProgram(fp.getId());
+            FIDELITY_CONTROLLER.updateProgramManager(program1);
+            owner.addBranchToFidelityProgram(program1.getId());
             ConsoleLog.log("The program id: " + id + " has been added!");
 
             ConsoleLog.log("Coupon creation");
@@ -300,13 +300,13 @@ public class Main {
             do {
                 String couponName = "coupon";
                 ConsoleLog.log("Set points needed to unlock this coupon");
-                int couponCost = sc.nextInt();
-                if (fp instanceof PointsProgram pp) {
+                int couponCost = SCANNER.nextInt();
+                if (program1 instanceof PointsProgram pp) {
                     Coupon coupon = new Coupon(couponName, couponCost, pp, null);
                     COUPON_CONTROLLER.addCoupon(coupon);
                     ConsoleLog.log("You've added a coupon! " + pp.getName());
                     ConsoleLog.log("Inserisci false per inserire un altro coupon, altrimenti true per uscire");
-                    flagCoupon = sc.nextBoolean();
+                    flagCoupon = SCANNER.nextBoolean();
                 }
             } while (!flagCoupon);
         } else {
@@ -317,16 +317,16 @@ public class Main {
     private static void handleRemoveFidelityProgramOption(BranchManager owner) throws SQLException, DateMistake {
         if (owner.isActive()) {
             Branch branch = null;
-            for (Branch br : BRANCH_CONTROLLER.viewBranch()) {
-                if (br.getOwner().getId() == owner.getId()) {
-                    branch = new Branch(br.getBranchName(), br.getAddress(), br.getOwner());
+            for (Branch currentBranch : BRANCH_CONTROLLER.viewBranch()) {
+                if (currentBranch.getOwner().getId() == owner.getId()) {
+                    branch = new Branch(currentBranch.getBranchName(), currentBranch.getAddress(), currentBranch.getOwner());
                 }
             }
             BRANCH_CONTROLLER.viewProgramPointOwner(branch);
             BRANCH_CONTROLLER.viewLvlProgramOwner(branch);
             ConsoleLog.log(BRANCH_CONTROLLER.toString());
             ConsoleLog.log("Program ID:");
-            int id = sc.nextInt();
+            int id = SCANNER.nextInt();
             BRANCH_CONTROLLER.deleteById(id);
             ConsoleLog.log("The program " + id + " has been removed!");
         } else {
@@ -344,24 +344,24 @@ public class Main {
             switch (option) {
                 case 1 -> {
                     ConsoleLog.log("CVV:");
-                    String cvv = sc.nextLine();
+                    String cvv = SCANNER.nextLine();
                     ConsoleLog.log("PIN:");
-                    String pin = sc.nextLine();
+                    String pin = SCANNER.nextLine();
                     ConsoleLog.log("Card number:");
-                    int cardNumber = sc.nextInt();
+                    int cardNumber = SCANNER.nextInt();
                     ConsoleLog.log("Expiration date:");
-                    long expirationDate = sc.nextInt();
+                    long expirationDate = SCANNER.nextInt();
                     Date expiration = new Date(expirationDate);
-                    CreditCard cc = new CreditCard(cardNumber, expiration, cvv, pin);
-                    PAYMENT_CONTROLLER.addCard(cc);
-                    REGISTER_CONTROLLER.cardUpdate(owner, cc);
+                    CreditCard card = new CreditCard(cardNumber, expiration, cvv, pin);
+                    PAYMENT_CONTROLLER.addCard(card);
+                    REGISTER_CONTROLLER.cardUpdate(owner, card);
                     ConsoleLog.log("Card added");
                 }
                 case 2 -> {
                     owner = REGISTER_CONTROLLER.findById(owner.getId());
                     if (owner.getCard() != null) {
                         ConsoleLog.log("Insert balance:");
-                        int amount = sc.nextInt();
+                        int amount = SCANNER.nextInt();
                         owner.getCard().increaseBalance(amount);
                         ConsoleLog.log("Balance added!");
                     } else {
@@ -406,13 +406,13 @@ public class Main {
         Customer customer = null;
         do {
             ConsoleLog.log("Username: ");
-            String username = sc.nextLine();
+            String username = SCANNER.nextLine();
             ConsoleLog.log("Password:");
-            String password = sc.nextLine();
+            String password = SCANNER.nextLine();
             boolean locale = false;
-            for (Customer c : REGISTER_CONTROLLER.viewCustomers()) {
-                if (c.getUsername().equals(username) && c.getPassword().equals(password)) {
-                    customer = new Customer(c.getId(), c.getName(), c.getSurname(), c.getAddress(), c.getEmail(), c.getUsername(), c.getPassword(), c.getTelephone());
+            for (Customer currentCustomer : REGISTER_CONTROLLER.viewCustomers()) {
+                if (currentCustomer.getUsername().equals(username) && currentCustomer.getPassword().equals(password)) {
+                    customer = new Customer(currentCustomer.getId(), currentCustomer.getName(), currentCustomer.getSurname(), currentCustomer.getAddress(), currentCustomer.getEmail(), currentCustomer.getUsername(), currentCustomer.getPassword(), currentCustomer.getTelephone());
                     locale = true;
                 }
             }
@@ -432,14 +432,15 @@ public class Main {
                         BRANCH_CONTROLLER.viewBranch();
                         ConsoleLog.log(BRANCH_CONTROLLER.branchestoString());
                         ConsoleLog.log("Branch name:");
-                        String branchName=sc.nextLine();
+                        String branchName= SCANNER.nextLine();
                         ConsoleLog.log("New card name:");
-                        String cardName=sc.nextLine();
+                        String cardName= SCANNER.nextLine();
                         ConsoleLog.log("Card expiration date:");
-                        long expirationDate= sc.nextLong();
+                        long expirationDate= SCANNER.nextLong();
                         Date expiration= new Date(expirationDate);
-                        FidelityCard fc= new FidelityCard(cardName,expiration, BRANCH_CONTROLLER.findById(branchName), customer);
-                        customer.createCard(fc);
+                        FidelityCard
+                                card= new FidelityCard(cardName,expiration, BRANCH_CONTROLLER.findById(branchName), customer);
+                        customer.createCard(card);
                         ConsoleLog.log("Excellent your card has been created! "+ branchName);
                         flag=true;
                     }
@@ -457,24 +458,24 @@ public class Main {
     }
     private static void delete() throws SQLException {
         ConsoleLog.log("Name:");
-        String name = sc.nextLine();
+        String name = SCANNER.nextLine();
         ConsoleLog.log("Program ID:");
-        int id = sc.nextInt();
-        FidelityProgram fidelityProgram = new FidelityProgram(name, id);
+        int id = SCANNER.nextInt();
+        FidelityProgram program = new FidelityProgram(name, id);
         FIDELITY_CONTROLLER.viewProgramPoint();
         FIDELITY_CONTROLLER.viewProgramLevels();
-        FIDELITY_CONTROLLER.deleteById(fidelityProgram.getId());
-        ConsoleLog.log("THe program" + name + " has been deleted!");
+        FIDELITY_CONTROLLER.deleteById(program.getId());
+        ConsoleLog.log("The program" + name + " has been deleted!");
     }
 
     private static void add() throws SQLException {
         ConsoleLog.log("Name:");
-        String name = sc.nextLine();
+        String name = SCANNER.nextLine();
         ConsoleLog.log("Description:");
-        String description = sc.nextLine();
+        String description = SCANNER.nextLine();
         ConsoleLog.log("1- Add points program" +
                 "2- Add levelling program ");
-        int number = sc.nextInt();
+        int number = SCANNER.nextInt();
         if (number == 1) {
             FidelityProgram pointsProgram = new PointsProgram(name, description);
             FIDELITY_CONTROLLER.addFidelityProgram(pointsProgram);
@@ -490,8 +491,8 @@ public class Main {
     private static int trialScannerInt() {
         while (true) {
             try {
-                int number = sc.nextInt();
-                sc.nextLine();
+                int number = SCANNER.nextInt();
+                SCANNER.nextLine();
                 return number;
             } catch (Exception e) {
                 ConsoleLog.error("Wrong value! ");

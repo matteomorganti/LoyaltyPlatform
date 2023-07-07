@@ -31,7 +31,7 @@ public class FidelityController {
         programList.add(programFel);
         String query = "";
         if (programFel instanceof PointsProgram pointsProgram) {
-            query = "INSERT INTO pointsprogram (id_pp, name_pp, description_pp, pointvalue, totpoints ) VALUES('" + pointsProgram.getId() + "','" + pointsProgram.getName() + "','" + pointsProgram.getDescription() + "', '" + pointsProgram.getPointXValue() + "', '" + pointsProgram.getTotalPoints() + "')";
+            query = "INSERT INTO pointsprogram (id_pp, name_pp, description_pp, pointvalue, totpoints ) VALUES('" + pointsProgram.getId() + "','" + pointsProgram.getName() + "','" + pointsProgram.getDescription() + "', '" + pointsProgram.getPointValue() + "', '" + pointsProgram.getTotalPoints() + "')";
         }
         if (programFel instanceof LevellingProgram levellingProgram) {
             query = "INSERT INTO levellingprogram (id_lp, name_lp, description_lp, maxlvl, totpoints_pl, lvlpercentage ) VALUES('" + levellingProgram.getId() + "','" + levellingProgram.getName() + "','" + levellingProgram.getDescription() + "', '" + levellingProgram.getMaxLevel() + "', '" + levellingProgram.getTotalPoints() + "', '" + levellingProgram.getLvlPercentage() + "')";
@@ -81,15 +81,15 @@ public class FidelityController {
      * @return the fidelity program with the specified ID
      */
     public FidelityProgram findById(int id) {
-        FidelityProgram programFel = null;
-        for (FidelityProgram p : this.programList) {
-            if (p.getId() == id)
-                programFel = p;
+        FidelityProgram fidelityProgram = null;
+        for (FidelityProgram program : this.programList) {
+            if (program.getId() == id)
+                fidelityProgram = program;
         }
-        if (programFel == null) {
+        if (fidelityProgram == null) {
             throw new NullPointerException();
         }
-        return programFel;
+        return fidelityProgram;
     }
 
     /**
@@ -103,13 +103,13 @@ public class FidelityController {
         if (findById(id) == null) {
             throw new NullPointerException("Fidelity program not found");
         }
-        for (FidelityProgram p : this.programList) {
-            if (id == p.getId())
-                this.programList.remove(p);
+        for (FidelityProgram program : this.programList) {
+            if (id == program.getId())
+                this.programList.remove(program);
             String query = "";
-            if (p instanceof PointsProgram pp) {
-                query = "DELETE FROM pointsprogram WHERE name_pp='" + pp.getName() + "'";
-            } else if (p instanceof LevellingProgram pl) {
+            if (program instanceof PointsProgram pointsProgram) {
+                query = "DELETE FROM pointsprogram WHERE name_pp='" + pointsProgram.getName() + "'";
+            } else if (program instanceof LevellingProgram pl) {
                 query = "DELETE FROM levellingprogram WHERE name_lp='" + pl.getName() + "';";
             }
             DBMSController.removeQuery(query);
@@ -121,18 +121,18 @@ public class FidelityController {
     /**
      * Adds a program owner to a fidelity program.
      *
-     * @param t  the branch manager to add as the program owner
+     * @param owner  the branch owner to add as the program owner
      * @param id the ID of the fidelity program
      * @throws SQLException   if an error occurs while executing the SQL query
      * @throws DateMistake    if there is an issue with the date
      */
-    public void addProgramOwner(BranchManager t, int id) throws SQLException, DateMistake {
+    public void addProgramOwner(BranchManager owner, int id) throws SQLException, DateMistake {
         if (findById(id) != null) {
             if (findById(id) instanceof PointsProgram pointsProgram) {
-                String query = "INSERT INTO ownerpointsprogram (id_opp, name_opp, description_opp, pointvalue_opp, totpoints_opp, ownerid_o ) VALUES('" + pointsProgram.getId() + "','" + pointsProgram.getName() + "','" + pointsProgram.getDescription() + "', '" + pointsProgram.getPointXValue() + "', '" + pointsProgram.getTotalPoints() + "', '" + t.getId() + "')";
+                String query = "INSERT INTO ownerpointsprogram (id_opp, name_opp, description_opp, pointvalue_opp, totpoints_opp, ownerid_o ) VALUES('" + pointsProgram.getId() + "','" + pointsProgram.getName() + "','" + pointsProgram.getDescription() + "', '" + pointsProgram.getPointValue() + "', '" + pointsProgram.getTotalPoints() + "', '" + owner.getId() + "')";
                 DBMSController.insertQuery(query);
             } else if (findById(id) instanceof LevellingProgram levellingProgram) {
-                String query = "INSERT INT ownerlevellingprogram (id_olp, name_olp, description_olp, maxlvl_olp, totpoints_olp, lvlpercentage_olp, ownerid_o ) VALUES('" + levellingProgram.getId() + "','" + levellingProgram.getName() + "','" + levellingProgram.getDescription() + "', '" + levellingProgram.getMaxLevel() + "', '" + levellingProgram.getTotalPoints() + "', '" + levellingProgram.getLvlPercentage() + "', '" + t.getId() + "')";
+                String query = "INSERT INT ownerlevellingprogram (id_olp, name_olp, description_olp, maxlvl_olp, totpoints_olp, lvlpercentage_olp, ownerid_o ) VALUES('" + levellingProgram.getId() + "','" + levellingProgram.getName() + "','" + levellingProgram.getDescription() + "', '" + levellingProgram.getMaxLevel() + "', '" + levellingProgram.getTotalPoints() + "', '" + levellingProgram.getLvlPercentage() + "', '" + owner.getId() + "')";
                 DBMSController.insertQuery(query);
             }
         }else  throw new DateMistake();
@@ -146,8 +146,8 @@ public class FidelityController {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
-        for (FidelityProgram pf : programList){
-            string.append("id: [").append(pf.getId()).append("] \n").append("name: [").append(pf.getName()).append("] \n").append("description: [").append(pf.getDescription()).append("]\n").append("------------------------------------\n");
+        for (FidelityProgram program : programList){
+            string.append("id: [").append(program.getId()).append("] \n").append("name: [").append(program.getName()).append("] \n").append("description: [").append(program.getDescription()).append("]\n").append("------------------------------------\n");
         }
         return string.toString();
     }
@@ -155,17 +155,17 @@ public class FidelityController {
     /**
      * Updates the program manager for a fidelity program.
      *
-     * @param pf the fidelity program to update
+     * @param program the fidelity program to update
      * @throws SQLException if an error occurs while executing the SQL query
      * @throws DateMistake  if there is an issue with the date
      */
-    public void updateProgramManager(FidelityProgram pf) throws SQLException, DateMistake {
-        if (findById(pf.getId()) != null) {
-            if (findById(pf.getId()) instanceof PointsProgram pp) {
-                String query = "UPDATE pointsprogram SET pointvalue = '" + pp.getPointXValue() + "',totpoints = '" + pp.getTotalPoints() + "' WHERE id_pp = '" + pp.getId() + "'";
+    public void updateProgramManager(FidelityProgram program) throws SQLException, DateMistake {
+        if (findById(program.getId()) != null) {
+            if (findById(program.getId()) instanceof PointsProgram pointsProgram) {
+                String query = "UPDATE pointsprogram SET pointvalue = '" + pointsProgram.getPointValue() + "',totpoints = '" + pointsProgram.getTotalPoints() + "' WHERE id_pp = '" + pointsProgram.getId() + "'";
                 DBMSController.insertQuery(query);
-            } else if (findById(pf.getId()) instanceof LevellingProgram pl) {
-                String query = "UPDATE levellingprogram  SET maxlvl = '" + pl.getMaxLevel() + "',totpoints_lp = '" + pl.getTotalPoints() + "', lvlpercentage ='" + pl.getLvlPercentage() + "' WHERE id_lp = '" + pl.getId() + "'";
+            } else if (findById(program.getId()) instanceof LevellingProgram levellingProgram) {
+                String query = "UPDATE levellingprogram  SET maxlvl = '" + levellingProgram.getMaxLevel() + "',totpoints_lp = '" + levellingProgram.getTotalPoints() + "', lvlpercentage ='" + levellingProgram.getLvlPercentage() + "' WHERE id_lp = '" + levellingProgram.getId() + "'";
                 DBMSController.insertQuery(query);
             }
         } else throw new DateMistake();

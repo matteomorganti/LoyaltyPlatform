@@ -76,23 +76,23 @@ public class Cashier extends User {
 
         // Check if there are points and no levels
         if (branchController.getCountPoints() > 0 && branchController.getCountLevels() == 0) {
-            if (fidelityProgram instanceof PointsProgram pp) {
-                branchController.addPointsCard(boughtItems, pp, fidelityCard, coupon);
+            if (fidelityProgram instanceof PointsProgram program) {
+                branchController.addPointsCard(boughtItems, program, fidelityCard, coupon);
             }
         }
         // Check if there are levels and no points
         else if (branchController.getCountPoints() == 0 && branchController.getCountLevels() > 0) {
-            if (fidelityProgram instanceof LevellingProgram pl) {
-                branchController.cardLvlUp(boughtItems, pl, fidelityCard);
+            if (fidelityProgram instanceof LevellingProgram program) {
+                branchController.cardLvlUp(boughtItems, program, fidelityCard);
             }
         }
         // Check if there are both levels and points
         else if (branchController.getCountLevels() > 0 && branchController.getCountPoints() > 0) {
-            if (fidelityProgram instanceof PointsProgram pp) {
-                branchController.addPointsCard(boughtItems, pp, fidelityCard, coupon);
+            if (fidelityProgram instanceof PointsProgram program) {
+                branchController.addPointsCard(boughtItems, program, fidelityCard, coupon);
             }
-            if (fidelityProgram instanceof LevellingProgram pl) {
-                branchController.cardLvlUp(boughtItems, pl, fidelityCard);
+            if (fidelityProgram instanceof LevellingProgram program) {
+                branchController.cardLvlUp(boughtItems, program, fidelityCard);
             }
         }
     }
